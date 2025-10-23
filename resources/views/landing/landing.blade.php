@@ -14,10 +14,6 @@
 </div>
 @endsection
 
-    <!-- Page content overlay (z-10) -->
-    <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 lg:py-36">
-        @include('landing.components.header')
-
         @include('landing.components.hero')
 
         @include('landing.components.features')

@@ -1,16 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/landing', function () {
-    return view('landing.landing');
-});
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

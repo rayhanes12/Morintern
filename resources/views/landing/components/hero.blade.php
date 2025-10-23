@@ -1,36 +1,26 @@
 {{-- Component: hero --}}
-<section id="hero" class="relative pt-24 pb-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                    Kesempatan Magang seru untuk Generasi Muda kreatif!
+<section id="hero" class="pt-28 pb-12">
+    <div class="max-w-[1440px] mx-auto px-8 lg:px-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <!-- Left text -->
+            <div class="pt-6 lg:pt-12 max-w-2xl">
+                <h1 class="text-4xl lg:text-5xl font-bold text-[#1F2937] leading-tight">
+                    Kesempatan Magang Seru untuk Generasi Muda Inovatif
                 </h1>
-                <p class="mt-6 text-lg text-gray-600">
-                    Apakah kamu siap memulai perjalanan karier yang bermakna?
-                    Morn Intern membuka kesempatan bagi mahasiswa dan fresh graduate untuk
-                    bergabung dalam program magang yang penuh pengalaman nyata, pembelajaran
-                    langsung, dan kesempatan berjejaring dengan profesional terbaik di bidangnya.
+                <p class="mt-6 text-lg text-[#374151]">
+                    Apakah kamu siap memulai perjalanan karier yang bermakna? Morn Intern membuka kesempatan bagi mahasiswa dan fresh graduate untuk bergabung dalam program magang yang penuh pengalaman nyata, pembelajaran langsung, dan kesempatan berjejaring dengan profesional terbaik di bidangnya.
                 </p>
+
                 <div class="mt-8">
-                    <a href="#lowongan" class="inline-block bg-[#678DE5] text-white px-8 py-3 rounded-md font-semibold hover:bg-blue-600 transition-colors">
-                        CARI LOWONGAN
-                    </a>
+                    <a href="#lowongan" class="inline-block bg-[#648DDB] hover:bg-[#547dd1] text-white px-6 py-3 rounded-md font-semibold">CARI LOWONGAN</a>
                 </div>
             </div>
-            <div class="relative">
-                <img src="{{ asset('assets/landing/hero-image.png') }}" alt="Hero Image" class="w-full max-w-lg mx-auto">
-                <div class="absolute -right-4 top-1/2 transform -translate-y-1/2">
-                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-lg">
-                        <img src="{{ asset('assets/landing/icon-lowongan.svg') }}" alt="" class="w-8 h-8 mb-2">
-                        <p class="text-sm font-medium">Lowongan Tersedia</p>
-                    </div>
-                </div>
-                <div class="absolute -left-4 bottom-1/4">
-                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-lg">
-                        <img src="{{ asset('assets/landing/icon-pelamar.svg') }}" alt="" class="w-8 h-8 mb-2">
-                        <p class="text-sm font-medium">Dilihat pelamar</p>
-                    </div>
+
+            <!-- Right illustration -->
+                <div class="relative flex justify-center lg:justify-end">
+                <div class="w-full max-w-md">
+                    <!-- use existing public asset Frame 24.jpg as hero illustration -->
+                    <img src="{{ asset('assets/landing/Frame 24.jpg') }}" alt="Hero Illustration" class="w-full h-auto object-contain">
                 </div>
             </div>
         </div>

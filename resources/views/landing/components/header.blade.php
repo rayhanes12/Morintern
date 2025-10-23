@@ -1,17 +1,42 @@
-{{-- Component: header --}}
-<header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <div class="flex-shrink-0">
-                <a href="/" class="text-xl font-bold text-gray-900">MorIntern</a>
-            </div>
-            <nav class="hidden md:flex items-center space-x-4">
-                <a href="#" class="text-gray-900 hover:text-gray-700 px-3 py-2">Home</a>
-                <a href="#" class="text-gray-900 hover:text-gray-700 px-3 py-2">Tentang</a>
-                <a href="#" class="text-gray-900 hover:text-gray-700 px-3 py-2">Kontak</a>
-                <a href="{{ route('login') }}" class="text-gray-900 hover:text-gray-700 px-3 py-2">Masuk</a>
-                <a href="{{ route('register') }}" class="bg-[#678DE5] text-white px-4 py-2 rounded-md hover:bg-blue-600">Daftar</a>
-            </nav>
+{{-- Component: header (pixel-accurate to Frame24) --}}
+<header class="w-full">
+    <div class="max-w-[1440px] mx-auto px-8 lg:px-12 py-6 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <a href="/" class="flex items-center gap-3">
+                <img src="{{ asset('assets/landing/MorIntern.svg') }}" alt="MorIntern" class="h-8 w-auto">
+                <span class="text-xl font-semibold text-[#0F172A]">Mor<span class="text-[#648DDB]">Intern</span></span>
+            </a>
         </div>
+
+        <!-- Mobile menu button -->
+        <button type="button" class="lg:hidden" @click="mobileMenuOpen = !mobileMenuOpen">
+            <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <svg x-show="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+
+        <nav class="hidden lg:flex items-center gap-8 text-sm">
+            <a href="#" class="text-[#0F172A]">Home</a>
+            <a href="#" class="text-[#0F172A]">Tentang</a>
+            <a href="#" class="text-[#0F172A]">Kontak</a>
+            <a href="{{ route('login') }}" class="px-4 py-2 border border-gray-200 rounded-md text-sm">Masuk</a>
+            <a href="{{ route('register') }}" class="px-4 py-2 bg-[#648DDB] text-white rounded-md text-sm">Daftar</a>
+        </nav>
+    </div>
+
+    <!-- Mobile menu -->
+    <div x-show="mobileMenuOpen" class="lg:hidden" style="display: none;">
+        <nav class="px-8 py-4 space-y-4">
+            <a href="#" class="block text-[#0F172A]">Home</a>
+            <a href="#" class="block text-[#0F172A]">Tentang</a>
+            <a href="#" class="block text-[#0F172A]">Kontak</a>
+            <div class="space-y-2">
+                <a href="{{ route('login') }}" class="block w-full text-center px-4 py-2 border border-gray-200 rounded-md text-sm">Masuk</a>
+                <a href="{{ route('register') }}" class="block w-full text-center px-4 py-2 bg-[#648DDB] text-white rounded-md text-sm">Daftar</a>
+            </div>
+        </nav>
     </div>
 </header>

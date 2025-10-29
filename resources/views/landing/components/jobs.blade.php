@@ -1,21 +1,21 @@
 <!-- Jobs section -->
 <section id="lowongan" class="py-12 bg-white">
-    <div class="max-w-[1440px] mx-auto px-8 lg:px-12">
-        <div class="bg-[#648DDB] text-white text-center py-6 rounded-md">
-            <h3 class="text-xl lg:text-2xl font-semibold">LOWONGAN TERSEDIA</h3>
-        </div>
+    <div class="bg-[#648DDB] text-white text-center py-6">
+        <h3 class="text-xl lg:text-2xl font-semibold">LOWONGAN TERSEDIA</h3>
+    </div>
 
+    <div class="max-w-[1440px] mx-auto px-8 lg:px-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
             @foreach(['Quality assurance','Backend Dev','System Analys','Front And'] as $job)
-                <div class="bg-white rounded-lg shadow-sm p-6 border">
-                    <h4 class="font-semibold text-lg text-[#0F172A] mb-3">{{ $job }}</h4>
-                    <ul class="text-gray-600 list-disc list-inside space-y-2">
-                        <li>Mahasiswa aktif atau lulusan maksimal 1 tahun.</li>
-                        <li>Memiliki semangat belajar tinggi dan mampu bekerja dalam tim.</li>
-                        <li>Bersedia mengikuti program selama periode magang.</li>
-                        <li>Menguasai dasar-dasar sesuai posisi yang dilamar.</li>
-                    </ul>
-                </div>
+            <div class="bg-white rounded-lg shadow-sm p-6 border">
+                <h4 class="font-semibold text-lg text-[#0F172A] mb-3">{{ $job }}</h4>
+                <ul class="text-gray-600 list-disc list-inside space-y-2">
+                    <li>Mahasiswa aktif atau lulusan maksimal 1 tahun.</li>
+                    <li>Memiliki semangat belajar tinggi dan mampu bekerja dalam tim.</li>
+                    <li>Bersedia mengikuti program selama periode magang.</li>
+                    <li>Menguasai dasar-dasar sesuai posisi yang dilamar.</li>
+                </ul>
+            </div>
             @endforeach
         </div>
 

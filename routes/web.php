@@ -17,12 +17,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/', function () {
-    // Langsung render halaman register.blade.php
-    return view('auth.register');
-});
+// Duplicate root route removed — landing page is handled by LandingController@index above.
+// If you intended a different route for registration, use Route::get('/register', ...) instead.
+// The duplicate route was causing '/' to show the register page instead of the landing page.
 
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

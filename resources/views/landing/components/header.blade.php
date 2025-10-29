@@ -3,7 +3,7 @@
     <div class="max-w-[1440px] mx-auto px-8 lg:px-12 py-6 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <a href="/" class="flex items-center gap-3">
-                <img src="{{ asset('assets/landing/MorIntern.svg') }}" alt="MorIntern" class="h-8 w-auto">
+
                 <span class="text-xl font-semibold text-[#0F172A]">Mor<span class="text-[#648DDB]">Intern</span></span>
             </a>
         </div>

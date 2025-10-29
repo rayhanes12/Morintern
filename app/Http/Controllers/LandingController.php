@@ -8,6 +8,8 @@ class LandingController extends Controller
 {
     public function index()
     {
-        return view('landing.index');
+        // The actual file is resources/views/landing/landing.blade.php
+        // so render it with the view name 'landing.landing'.
+        return view('landing.landing');
     }
 }

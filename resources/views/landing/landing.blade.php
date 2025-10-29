@@ -5,7 +5,7 @@
     <!-- Include all components -->
     @include('landing.components.header')
 
-    <main class="pt-0">
+    <main class="pt-0 landing-content">
         @include('landing.components.hero')
         @include('landing.components.features')
         @include('landing.components.jobs')

@@ -1,5 +1,5 @@
 <!-- Jobs section -->
-<section id="lowongan" class="py-12 bg-white">
+<section id="lowongan" class="bg-white mt-8">
     <div class="bg-[#648DDB] text-white text-center py-6">
         <h3 class="text-xl lg:text-2xl font-semibold">LOWONGAN TERSEDIA</h3>
     </div>

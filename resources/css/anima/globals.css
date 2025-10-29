@@ -5,61 +5,67 @@
 input[type="email"],
 input[type="password"],
 input[type="text"] {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="text"]:focus {
-  outline: none;
+    outline: none;
 }
 
 input[type="email"]::placeholder,
 input[type="password"]::placeholder,
 input[type="text"]::placeholder {
-  color: #999;
-  opacity: 1;
+    color: #999;
+    opacity: 1;
 }
 
 /* Anima specific styles */
 .register-page {
-  @apply bg-[#942323] overflow-hidden w-full min-h-screen relative;
+    @apply bg-[#942323] overflow-hidden w-full min-h-screen relative;
 }
 
 .register-form-container {
-  @apply bg-white rounded-[20px] shadow-lg max-w-md mx-auto p-8;
+    @apply bg-white rounded-[20px] shadow-lg max-w-md mx-auto p-8;
 }
 
 /* Image backgrounds and decorations */
 .bg-vector-1 {
-  position: absolute;
-  top: -556px;
-  left: -899px;
-  width: 1726px;
-  height: 1159px;
-  z-index: 0;
+    position: absolute;
+    top: -556px;
+    left: -899px;
+    width: 1726px;
+    height: 1159px;
+    z-index: 0;
 }
 
 .bg-illustration {
-  position: absolute;
-  top: -512px;
-  left: -720px;
-  width: 1155px;
-  height: 745px;
-  z-index: 1;
+    position: absolute;
+    top: -512px;
+    left: -720px;
+    width: 1155px;
+    height: 745px;
+    z-index: 1;
 }
 
 /* Form elements styling */
 .form-input {
-  @apply w-full px-4 py-2 rounded-[10px] border border-solid border-[#3e5a9cd9];
+    @apply w-full px-4 py-2 rounded-[10px] border border-solid border-[#3e5a9cd9];
 }
 
 .register-button {
-  @apply w-full bg-[#942323] text-white font-semibold py-3 px-6 rounded-[10px] hover:bg-[#7a1c1c] transition-colors;
+    @apply w-full bg-[#942323] text-white font-semibold py-3 px-6 rounded-[10px] hover:bg-[#7a1c1c] transition-colors;
 }
 
 .login-link {
-  @apply text-[#942323] hover:text-[#7a1c1c] transition-colors;
+    @apply text-[#942323] hover:text-[#7a1c1c] transition-colors;
+}
+
+/* Landing page content margins */
+.landing-content {
+    margin-left: 100px;
+    margin-right: 100px;
 }

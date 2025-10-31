@@ -1,12 +1,11 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
+    <form method="POST" action="{{ route('peserta.password.store') }}">
         @csrf
 
         <!-- Password Reset Token -->
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            {{-- {{ __('Buat Kata Sandi Baru') }} --}}
             {{ __('Buat kata sandi baru. Pastikan itu berbeda dari yang sebelumnya untuk keamanan') }}
         </div>
 

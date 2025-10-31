@@ -1,13 +1,12 @@
 <x-guest-layout>
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{-- {{ __('Lupa kata sandi Anda? Tidak masalah. Cukup beritahu kami alamat email Anda, dan kami akan mengirimkan tautan reset kata sandi melalui email yang memungkinkan Anda memilih kata sandi baru.') }} --}}
-        {{ __('Masukkan Email untuk Reset Password') }}
+        {{ __('Lupa kata sandi Anda? Tidak masalah. Cukup beritahu kami alamat email Anda, dan kami akan mengirimkan tautan reset kata sandi melalui email yang memungkinkan Anda memilih kata sandi baru.') }}
     </div>
 
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <form method="POST" action="{{ route('peserta.password.email') }}">
         @csrf
 
         <!-- Email Address -->
@@ -20,7 +19,6 @@
         <div class="flex items-center justify-end mt-4">
             <x-primary-button>
                 {{ __('Email Password Reset Link') }}
-                {{-- {{ __('Reset Password') }} --}}
             </x-primary-button>
         </div>
     </form>

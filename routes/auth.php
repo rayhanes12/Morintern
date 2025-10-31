@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+    // Password update route moved to web.php and protected by AuthAny middleware
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');

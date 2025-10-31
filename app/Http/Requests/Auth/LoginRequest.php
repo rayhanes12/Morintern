@@ -41,15 +41,21 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+        $credentials = $this->only('email', 'password');
+        $remember = $this->boolean('remember');
 
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+        // Try default web guard first, then intern guard so a single login form
+        // can authenticate either a regular user or an intern.
+        if (Auth::guard('web')->attempt($credentials, $remember) || Auth::guard('peserta')->attempt($credentials, $remember)) {
+            RateLimiter::clear($this->throttleKey());
+            return;
         }
 
-        RateLimiter::clear($this->throttleKey());
+        RateLimiter::hit($this->throttleKey());
+
+        throw ValidationException::withMessages([
+            'email' => trans('auth.failed'),
+        ]);
     }
 
     /**

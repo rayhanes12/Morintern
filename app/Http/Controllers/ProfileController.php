@@ -16,8 +16,10 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = Auth::check() ? Auth::user() : Auth::guard('peserta')->user();
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
         ]);
     }
 
@@ -26,13 +28,15 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = Auth::check() ? Auth::user() : Auth::guard('peserta')->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($request->validated());
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -42,13 +46,29 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+    // Determine which guard the user is authenticated with so we can
+    // validate the current password against the correct guard.
+    $guard = Auth::check() ? 'web' : (Auth::guard('peserta')->check() ? 'peserta' : null);
+
+        $passwordRule = ['required'];
+        if ($guard) {
+            $passwordRule[] = 'current_password:'.$guard;
+        } else {
+            $passwordRule[] = 'current_password';
+        }
+
         $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+            'password' => $passwordRule,
         ]);
 
-        $user = $request->user();
+        $user = Auth::check() ? Auth::user() : Auth::guard('peserta')->user();
 
-        Auth::logout();
+        // Logout from the specific guard used.
+        if ($guard === 'peserta') {
+            Auth::guard('peserta')->logout();
+        } else {
+            Auth::logout();
+        }
 
         $user->delete();
 

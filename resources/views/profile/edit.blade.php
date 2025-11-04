@@ -1,3 +1,5 @@
+#MzKiibo
+
 <x-app-layout>
     {{-- Background --}}
     <div class="fixed inset-0 -z-10 overflow-hidden">

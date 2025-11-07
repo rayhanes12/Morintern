@@ -23,7 +23,7 @@
             <a href="#" class="text-[#0F172A]">Tentang</a>
             <a href="#" class="text-[#0F172A]">Kontak</a>
             <a href="{{ route('login') }}" class="px-4 py-2 border border-gray-200 rounded-md text-sm">Masuk</a>
-            <a href="{{ route('register') }}" class="px-4 py-2 bg-[#648DDB] text-white rounded-md text-sm">Daftar</a>
+            <a href="{{ route('peserta.register') }}" class="px-4 py-2 bg-[#648DDB] text-white rounded-md text-sm">Daftar</a>
         </nav>
     </div>
 
@@ -35,7 +35,7 @@
             <a href="#" class="block text-[#0F172A]">Kontak</a>
             <div class="space-y-2">
                 <a href="{{ route('login') }}" class="block w-full text-center px-4 py-2 border border-gray-200 rounded-md text-sm">Masuk</a>
-                <a href="{{ route('register') }}" class="block w-full text-center px-4 py-2 bg-[#648DDB] text-white rounded-md text-sm">Daftar</a>
+                <a href="{{ route('peserta.register') }}" class="block w-full text-center px-4 py-2 bg-[#648DDB] text-white rounded-md text-sm">Daftar</a>
             </div>
         </nav>
     </div>

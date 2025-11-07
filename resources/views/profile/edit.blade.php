@@ -44,6 +44,16 @@
                 </div>
             </div>
 
+            {{-- Hapus Akun --}}
+            <div class="p-6 bg-white dark:bg-gray-800 shadow sm:rounded-lg border border-red-300/50">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
+                    Hapus Akun
+                </h3>
+                <div class="max-w-xl">
+                    @includeIf('profile.partials.delete-user-form')
+                </div>
+            </div>
+
             {{-- Daftar Anggota Kelompok --}}
             @if(isset($anggota) && count($anggota) > 0)
                 <div class="p-6 bg-white dark:bg-gray-800 shadow sm:rounded-lg">

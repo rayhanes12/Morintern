@@ -12,7 +12,7 @@
 
         <!-- CTA -->
         <section id="get-started" class="mt-16 text-center">
-            <a href="{{ route('register') }}" class="inline-block bg-[#648DDB] text-white px-8 py-3 rounded-md font-semibold">Mulai Sekarang</a>
+            <a href="{{ route('peserta.register') }}" class="inline-block bg-[#648DDB] text-white px-8 py-3 rounded-md font-semibold">Mulai Sekarang</a>
         </section>
 
         @include('landing.components.footer')

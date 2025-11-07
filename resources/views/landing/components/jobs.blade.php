@@ -20,7 +20,7 @@
         </div>
 
         <div class="text-center mt-10">
-            <a href="{{ route('register') }}" class="px-6 py-2 bg-white border rounded-md text-[#648DDB] font-semibold">DAFTAR</a>
+            <a href="{{ route('peserta.register') }}" class="px-6 py-2 bg-white border rounded-md text-[#648DDB] font-semibold">DAFTAR</a>
             <div class="mt-4">
                 <a href="#" class="px-6 py-2 bg-[#648DDB] text-white rounded-md">LIHAT LOWONGAN LAINNYA</a>
             </div>
@@ -167,7 +167,7 @@
         </div>
 
         <div class="mt-12 text-center">
-            <a href="{{ route('register') }}" class="inline-block bg-[#678DE5] text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-600 transition-colors">
+            <a href="{{ route('peserta.register') }}" class="inline-block bg-[#678DE5] text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-600 transition-colors">
                 DAFTAR
             </a>
             <a href="#" class="block mt-4 text-[#678DE5] hover:underline">

@@ -27,7 +27,7 @@
 
             <!-- Right text -->
             <div>
-                <h2 class="text-2xl lg:text-3xl font-bold text-center lg:text-left text-[#1E40AF]">Program Morn Intern dirancang untuk memberikan pengalaman kerja nyata di dunia industri.</h2>
+                <h2 class="text-2xl lg:text-3xl font-bold text-center lg:text-left text-[#1E40AF]">Program MorIntern dirancang untuk memberikan pengalaman kerja nyata di dunia industri.</h2>
                 <p class="mt-6 text-gray-700 max-w-xl">Selama masa magang, peserta akan:</p>
                 <ul class="mt-6 space-y-3 list-none text-gray-700">
                     <li class="flex items-start gap-3"><span class="mt-1 text-[#648DDB]">•</span> Berkolaborasi dengan tim profesional di berbagai bidang.</li>

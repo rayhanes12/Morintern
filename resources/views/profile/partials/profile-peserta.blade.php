@@ -1,6 +1,6 @@
 {{-- FORM PROFIL PESERTA (KETUA + ANGGOTA) --}}
 
-<section id="profile-peserta" class="space-y-8">
+<section id="profile-peserta" class="max-w-4xl mx-auto pt-12 pb-24 px-6 space-y-10">
 
     {{-- Header Section --}}
     <div class="flex justify-between items-center mb-6">

@@ -13,9 +13,32 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- Profile Page Styles -->
+        <style>
+            * {
+                font-family: 'Plus Jakarta Sans', sans-serif;
+            }
+
+            label {
+                font-weight: 600;
+                color: #1A1A1A;
+            }
+
+            input, select {
+                border: 1.5px solid #6F8FF9 !important;
+                border-radius: 8px !important;
+                padding: 10px 14px !important;
+            }
+
+            button {
+                font-weight: 600 !important;
+                border-radius: 8px !important;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
-    <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 relative">
+    <div class="min-h-screen flex flex-col items-center justify-center bg-transparent relative">
             @include('layouts.navigation')
 
             <!-- Page Heading -->

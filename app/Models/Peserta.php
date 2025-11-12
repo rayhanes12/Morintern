@@ -12,7 +12,7 @@ class Peserta extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $table = 'peserta_calon';
+    protected $table = 'pesertas';
 
         protected $fillable = [
         'nama_lengkap',

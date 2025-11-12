@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Peserta;
 
 use App\Http\Controllers\Controller;
-use App\Models\Peserta;
+use App\Models\PesertaCalon;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -36,9 +36,9 @@ class NewPasswordController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $status = Password::broker('pesertas')->reset(
+        $status = Password::broker('peserta_calon')->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (Peserta $peserta) use ($request) {
+            function (PesertaCalon $peserta) use ($request) {
                 $peserta->forceFill([
                     'password' => Hash::make($request->password),
                     'remember_token' => Str::random(60),

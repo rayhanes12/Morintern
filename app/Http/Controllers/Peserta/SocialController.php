@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth\Peserta;
 
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\Peserta;
+use App\Models\PesertaCalon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -33,7 +33,7 @@ class SocialController extends Controller
         $googleUser = Socialite::driver('google')->stateless()->user();
 
         // Cek apakah peserta sudah ada
-        $peserta = Peserta::where('google_id', $googleUser->getId())
+        $peserta = PesertaCalon::where('google_id', $googleUser->getId())
             ->orWhere('email', $googleUser->getEmail())
             ->first();
 
@@ -42,7 +42,7 @@ class SocialController extends Controller
                 $peserta->update(['google_id' => $googleUser->getId()]);
             }
         } else {
-            $peserta = Peserta::create([
+            $peserta = PesertaCalon::create([
                 'nama_lengkap' => $googleUser->getName() ?? 'Peserta Google',
                 'email' => $googleUser->getEmail(),
                 'google_id' => $googleUser->getId(),

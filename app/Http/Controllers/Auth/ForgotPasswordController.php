@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use App\Models\Peserta;
+use App\Models\PesertaCalon;
 
 class ForgotPasswordController extends Controller
 {
@@ -15,8 +15,8 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request) {
         $request->validate(['email' => 'required|email']);
 
-        // First try peserta broker
-        $status = Password::broker('pesertas')->sendResetLink($request->only('email'));
+        // First try peserta_calon broker
+        $status = Password::broker('peserta_calon')->sendResetLink($request->only('email'));
         
         if ($status === Password::RESET_LINK_SENT) {
             return back()->with('status', __($status));

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta name="description" content="MORINTERN - Halaman Registrasi" />
+    <title>MORINTERN - Register</title>
+    <link rel="stylesheet" href="globals.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      /** @type {import('tailwindcss').Config} */
+      tailwind.config = {
+        theme: {
+          extend: {},
+        },
+        plugins: [],
+      };
+    </script>
+  </head>
+  <body>
+    <main class="bg-[#942323] overflow-hidden w-full min-w-[1440px] min-h-[1024px] relative" role="main">
+      <div class="bg-white absolute top-0 left-0 w-px h-px" aria-hidden="true"></div>
+      <img
+        class="absolute top-[-556px] left-[-899px] w-[1726px] h-[1159px]"
+        src="https://c.animaapp.com/mh1hclri69PVM3/img/vector-1.svg"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        class="absolute top-[-512px] left-[-720px] w-[1155px] h-[745px]"
+        src="https://c.animaapp.com/mh1hclri69PVM3/img/ini-removebg-preview-1.png"
+        alt="Ilustrasi tim kerja MORINTERN"
+      />
+      <div
+        class="bg-white rounded-[20px] border border-solid border-[#678de5] absolute top-0 left-0 w-px h-px"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="bg-white rounded-[10px] border border-solid border-[#3e5a9cd9] absolute top-0 left-0 w-px h-px"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="bg-white rounded-[10px] border border-solid border-[#3e5a9cd9] absolute top-0 left-0 w-px h-px"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="bg-white rounded-[10px] border border-solid border-[#3e5a9cd9] absolute top-0 left-0 w-px h-px"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="bg-[#527fe7d9] rounded-[10px] border border-solid border-[#1e1e1e] absolute top-0 left-0 w-px h-px"
+        aria-hidden="true"
+      ></div>
+      <h1
+        class="absolute top-[100px] left-[100px] [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-black text-[64px] tracking-[0] leading-[normal] whitespace-nowrap"
+      >
+        MORINTERN
+      </h1>
+      <section
+        class="absolute top-[290px] left-[780px] bg-white rounded-[20px] border border-solid border-[#678de5] w-[470px] p-[50px]"
+      >
+        <h2
+          class="[font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold text-[#1e1e1e] text-2xl tracking-[0] leading-[normal] whitespace-nowrap mb-[30px]"
+        >
+          Register
+        </h2>
+        <form novalidate>
+          <div class="mb-[20px]">
+            <label
+              for="email"
+              class="block [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-black text-xs tracking-[0] leading-[normal] mb-[8px]"
+            >
+              Alamat Email
+            </label>
+            <div class="relative">
+              <img
+                class="absolute top-[12px] left-[15px] w-[20px] h-[20px] object-contain pointer-events-none"
+                src="https://c.animaapp.com/mh1hclri69PVM3/img/email-2.png"
+                alt=""
+                aria-hidden="true"
+              />
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="bg-white rounded-[10px] border border-solid border-[#3e5a9cd9] w-full h-[45px] pl-[45px] pr-[15px] [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-black text-sm tracking-[0] leading-[normal] focus:outline-none focus:border-[#527fe7] focus:ring-2 focus:ring-[#527fe7]/30"
+                placeholder="Masukkan email Anda"
+                required
+                aria-required="true"
+                autocomplete="email"
+              />
+            </div>
+          </div>
+          <div class="mb-[20px]">
+            <label
+              for="password"
+              class="block [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-black text-xs tracking-[0] leading-[normal] mb-[8px]"
+            >
+              Password
+            </label>
+            <div class="relative">
+              <img
+                class="absolute top-[10px] left-[14px] w-[22px] h-[25px] object-contain pointer-events-none"
+                src="https://c.animaapp.com/mh1hclri69PVM3/img/gembok-removebg-preview-2.png"
+                alt=""
+                aria-hidden="true"
+              />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="bg-white rounded-[10px] border border-solid border-[#3e5a9cd9] w-full h-[45px] pl-[45px] pr-[45px] [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-black text-sm tracking-[0] leading-[normal] focus:outline-none focus:border-[#527fe7] focus:ring-2 focus:ring-[#527fe7]/30"
+                placeholder="Masukkan password Anda"
+                required
+                aria-required="true"
+                autocomplete="new-password"
+              />
+              <button
+                type="button"
+                class="absolute top-[10px] right-[15px] w-[26px] h-[26px] bg-transparent border-0 cursor-pointer p-0 focus:outline-none focus:ring-2 focus:ring-[#527fe7]"
+                aria-label="Tampilkan atau sembunyikan password"
+              >
+                <img
+                  class="w-full h-full object-contain"
+                  src="https://c.animaapp.com/mh1hclri69PVM3/img/eye-lashes-1.png"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+          </div>
+          <div class="mb-[10px]">
+            <label
+              for="confirm-password"
+              class="block [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-black text-xs tracking-[0] leading-[normal] mb-[8px]"
+            >
+              Ketik Ulang Kata Sandi
+            </label>
+            <div class="relative">
+              <img
+                class="absolute top-[10px] left-[14px] w-[22px] h-[25px] object-contain pointer-events-none"
+                src="https://c.animaapp.com/mh1hclri69PVM3/img/gembok-removebg-preview-2.png"
+                alt=""
+                aria-hidden="true"
+              />
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm-password"
+                class="bg-white rounded-[10px] border border-solid border-[#3e5a9cd9] w-full h-[45px] pl-[45px] pr-[45px] [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-black text-sm tracking-[0] leading-[normal] focus:outline-none focus:border-[#527fe7] focus:ring-2 focus:ring-[#527fe7]/30"
+                placeholder="Ketik ulang password Anda"
+                required
+                aria-required="true"
+                autocomplete="new-password"
+              />
+              <button
+                type="button"
+                class="absolute top-[10px] right-[15px] w-[26px] h-[26px] bg-transparent border-0 cursor-pointer p-0 focus:outline-none focus:ring-2 focus:ring-[#527fe7]"
+                aria-label="Tampilkan atau sembunyikan konfirmasi password"
+              >
+                <img
+                  class="w-full h-full object-contain"
+                  src="https://c.animaapp.com/mh1hclri69PVM3/img/eye-lashes-1.png"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+          </div>
+          <div class="text-right mb-[25px]">
+            <a
+              href="#"
+              class="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-[#6aa7f1] text-xs tracking-[0] leading-[normal] hover:underline focus:outline-none focus:ring-2 focus:ring-[#527fe7] focus:ring-offset-2 rounded"
+            >
+              Lupa Kata Sandi?
+            </a>
+          </div>
+          <button
+            type="submit"
+            class="bg-[#527fe7d9] rounded-[10px] border border-solid border-[#1e1e1e] w-full h-[50px] [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold text-[#1e1e1e] text-2xl tracking-[0] leading-[normal] cursor-pointer hover:bg-[#527fe7] focus:outline-none focus:ring-2 focus:ring-[#1e1e1e] focus:ring-offset-2 transition-colors"
+          >
+            Register
+          </button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

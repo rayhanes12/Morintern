@@ -2,16 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\Auth\Peserta\SocialController as PesertaSocialController;
 
-// Halaman utama
-Route::get('/', function () {
-    return view('welcome');
-});
 
-// Dashboard untuk HRD & Intern
+// Landing Page
+Route::get('/', [LandingController::class, 'index'])->name('landing');
+
+
+//  DASHBOARD (HRD & PESERTA)
 Route::get('/dashboard', function () {
     if (Auth::guard('web')->check() || Auth::guard('peserta')->check()) {
         return view('dashboard');
@@ -20,28 +21,45 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 
-// Route yang butuh login (HRD atau Intern)
-// Use the AuthAny middleware class which allows either the 'web' or 'intern' guard.
+//  ROUTE YANG BUTUH LOGIN (HRD ATAU PESERTA)
 Route::middleware(\App\Http\Middleware\AuthAny::class)->group(function () {
+    // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::match(['post', 'patch'], '/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-    // Password update route
+
+    // Anggota management (AJAX)
+    Route::prefix('profile/anggota')->name('profile.anggota.')->group(function () {
+        Route::get('/', [ProfileController::class, 'getAnggota'])->name('index');
+        Route::post('/', [ProfileController::class, 'storeAnggota'])->name('store');
+        Route::delete('/{id}', [ProfileController::class, 'destroyAnggota'])->name('destroy');
+    });
+
+    // Password update
     Route::put('password', [\App\Http\Controllers\Auth\PasswordController::class, 'update'])
         ->name('password.update');
 });
 
-// Google Login untuk HRD/User utama
+// HRD Dashboard Routes
+Route::prefix('hrd')->middleware('auth:web')->name('hrd.')->group(function () {
+    Route::get('/calon', [App\Http\Controllers\Hrd\PesertaController::class, 'index'])->name('peserta.index');
+    Route::post('/calon/{id}/approve', [App\Http\Controllers\Hrd\PesertaController::class, 'approve'])->name('peserta.approve');
+    Route::post('/calon/{id}/reject', [App\Http\Controllers\Hrd\PesertaController::class, 'reject'])->name('peserta.reject');
+});
+
+
+
+//  LOGIN DENGAN GOOGLE (HRD / USER UTAMA)
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+
+//  LOGIN DENGAN GOOGLE (PESERTA)
 Route::prefix('peserta')->name('peserta.')->group(function () {
     Route::get('/auth/google', [PesertaSocialController::class, 'redirectToGoogle'])->name('google.login');
     Route::get('/auth/google/callback', [PesertaSocialController::class, 'handleGoogleCallback']);
 });
 
-
-// Include route tambahan
-require __DIR__.'/auth.php';
-require __DIR__.'/peserta.php';
+//  ROUTE TAMBAHAN
+require __DIR__ . '/auth.php';
+require __DIR__ . '/peserta.php';

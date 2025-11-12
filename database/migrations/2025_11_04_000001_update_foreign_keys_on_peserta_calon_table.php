@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -11,36 +12,63 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('peserta_calon', function (Blueprint $table) {
-            // Hapus constraint lama (jika sudah ada)
-            try {
-                $table->dropForeign(['user_id']);
-            } catch (\Throwable $e) {
-                // ignore jika belum ada
-            }
+        // Skip this migration if calon_pesertas table exists (newer schema)
+        if (Schema::hasTable('calon_pesertas')) {
+            return;
+        }
 
-            try {
-                $table->dropForeign(['ketua_id']);
-            } catch (\Throwable $e) {
-                // ignore jika belum ada
+        // Skip if peserta_calon doesn't exist
+        if (!Schema::hasTable('peserta_calon')) {
+            return;
+        }
+
+        Schema::table('peserta_calon', function (Blueprint $table) {
+            // Get all foreign keys for this table
+            $foreignKeys = DB::select(
+                "SELECT CONSTRAINT_NAME 
+                 FROM information_schema.TABLE_CONSTRAINTS 
+                 WHERE TABLE_SCHEMA = DATABASE() 
+                 AND TABLE_NAME = 'peserta_calon' 
+                 AND CONSTRAINT_TYPE = 'FOREIGN KEY'"
+            );
+
+            // Drop existing foreign keys if they exist
+            foreach ($foreignKeys as $key) {
+                if (str_contains($key->CONSTRAINT_NAME, 'user_id') || 
+                    str_contains($key->CONSTRAINT_NAME, 'ketua_id')) {
+                    try {
+                        $table->dropForeign($key->CONSTRAINT_NAME);
+                    } catch (\Throwable $e) {
+                        // ignore if fails
+                    }
+                }
             }
         });
 
         Schema::table('peserta_calon', function (Blueprint $table) {
             // Samakan tipe kolom dengan BIGINT UNSIGNED
-            $table->unsignedBigInteger('user_id')->nullable()->change();
-            $table->unsignedBigInteger('ketua_id')->nullable()->change();
+            if (Schema::hasColumn('peserta_calon', 'user_id')) {
+                $table->unsignedBigInteger('user_id')->nullable()->change();
+            }
+            
+            if (Schema::hasColumn('peserta_calon', 'ketua_id')) {
+                $table->unsignedBigInteger('ketua_id')->nullable()->change();
+            }
 
             // Tambahkan relasi baru
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
+            if (Schema::hasColumn('peserta_calon', 'user_id')) {
+                $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users')
+                    ->cascadeOnDelete();
+            }
 
-            $table->foreign('ketua_id')
-                ->references('id')
-                ->on('peserta_calon')
-                ->nullOnDelete();
+            if (Schema::hasColumn('peserta_calon', 'ketua_id')) {
+                $table->foreign('ketua_id')
+                    ->references('id')
+                    ->on('peserta_calon')
+                    ->nullOnDelete();
+            }
         });
     }
 
@@ -49,10 +77,30 @@ return new class extends Migration
      */
     public function down(): void
     {
+        if (!Schema::hasTable('peserta_calon')) {
+            return;
+        }
+
         Schema::table('peserta_calon', function (Blueprint $table) {
-            // Hapus foreign key
-            $table->dropForeign(['user_id']);
-            $table->dropForeign(['ketua_id']);
+            // Get all foreign keys
+            $foreignKeys = DB::select(
+                "SELECT CONSTRAINT_NAME 
+                 FROM information_schema.TABLE_CONSTRAINTS 
+                 WHERE TABLE_SCHEMA = DATABASE() 
+                 AND TABLE_NAME = 'peserta_calon' 
+                 AND CONSTRAINT_TYPE = 'FOREIGN KEY'"
+            );
+
+            foreach ($foreignKeys as $key) {
+                if (str_contains($key->CONSTRAINT_NAME, 'user_id') || 
+                    str_contains($key->CONSTRAINT_NAME, 'ketua_id')) {
+                    try {
+                        $table->dropForeign($key->CONSTRAINT_NAME);
+                    } catch (\Throwable $e) {
+                        // ignore
+                    }
+                }
+            }
         });
     }
 };

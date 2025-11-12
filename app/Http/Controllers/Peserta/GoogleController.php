@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Peserta;
 
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\Peserta;
+use App\Models\PesertaCalon;
 use Illuminate\Support\Facades\Auth;
 
 class GoogleController extends Controller
@@ -19,7 +19,7 @@ class GoogleController extends Controller
         $googleUser = Socialite::driver('google')->stateless()->user();
 
         // Cari peserta berdasarkan google_id atau email
-        $peserta = Peserta::where('google_id', $googleUser->getId())
+        $peserta = PesertaCalon::where('google_id', $googleUser->getId())
             ->orWhere('email', $googleUser->getEmail())
             ->first();
 
@@ -28,7 +28,7 @@ class GoogleController extends Controller
                 $peserta->update(['google_id' => $googleUser->getId()]);
             }
         } else {
-            $peserta = Peserta::create([
+            $peserta = PesertaCalon::create([
                 'nama_lengkap' => $googleUser->getName() ?? 'Google Peserta',
                 'email' => $googleUser->getEmail(),
                 'google_id' => $googleUser->getId(),

@@ -1,4 +1,4 @@
-@extends('layouts.landing')
+@extends('layouts.landing-layout')
 
 @section('content')
 <div class="min-h-screen bg-white">

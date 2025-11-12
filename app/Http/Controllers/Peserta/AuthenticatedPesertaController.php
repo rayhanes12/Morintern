@@ -22,7 +22,7 @@ class AuthenticatedPesertaController extends Controller
 
         if (Auth::guard('peserta')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/');
         }
 
         return back()->withErrors([

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Peserta;
 
+use App\Http\Controllers\Controller;
 use App\Models\PesertaCalon;
 use App\Models\Spesialisasi;
 use Illuminate\Http\JsonResponse;
@@ -9,29 +10,28 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-class ProfileController extends Controller
+class PesertaProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Display the peserta's profile form.
      */
     public function edit(Request $request): View
     {
-        $user = $this->getAuthenticatedUser();
+        $user = Auth::guard('peserta')->user();
         $ketua = $user;
         
         // Get anggota if user is peserta (ketua)
         $anggota = [];
-        if (Auth::guard('peserta')->check()) {
+        if ($user) {
             $anggota = PesertaCalon::where('ketua_id', $user->id)->get();
         }
 
         // Spesialisasi options from database
         $spesialisasiOptions = Spesialisasi::pluck('nama_spesialisasi', 'id')->toArray();
 
-        return view('profile.edit', [
+        return view('profile.peserta-edit', [
             'user' => $user,
             'ketua' => $ketua,
             'anggota' => $anggota,
@@ -40,7 +40,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Update the peserta's profile information.
      */
     public function update(Request $request)
     {
@@ -117,7 +117,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Delete the user's account.
+     * Delete the peserta's account.
      */
     public function destroy(Request $request): RedirectResponse
     {
@@ -125,9 +125,9 @@ class ProfileController extends Controller
             'password' => ['required', 'current_password'],
         ]);
 
-        $user = $request->user();
+        $user = Auth::guard('peserta')->user();
 
-        Auth::logout();
+        Auth::guard('peserta')->logout();
 
         $user->delete();
 
@@ -137,76 +137,13 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-
-    /**
-     * Update profile data for peserta via AJAX.
-     */
-    public function updateProfileData(Request $request): JsonResponse
-    {
-        $user = Auth::guard('peserta')->user();
-
-        $validated = $request->validate([
-            'nama_lengkap' => 'required|string|max:100',
-            'no_telp' => 'required|string|max:20',
-            'email' => 'required|email|max:100',
-            'github' => 'nullable|string|max:255',
-            'linkedin' => 'nullable|string|max:255',
-            'spesialisasi_id' => 'nullable|exists:spesialisasi,id',
-            'tanggal_mulai' => 'nullable|date',
-            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
-        ]);
-
-        $user->update($validated);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Profil berhasil diperbarui.',
-        ]);
-    }
-
-    /**
-     * Store a new anggota via AJAX.
-     */
-    public function storeAnggota(Request $request): JsonResponse
-    {
-        $ketua = Auth::guard('peserta')->user();
-
-        $validated = $request->validate([
-            'nama_lengkap' => 'required|string|max:100',
-            'no_telp' => 'required|string|max:20',
-            'email' => 'required|email|max:100|unique:peserta_calon,email',
-            'github' => 'nullable|string|max:255',
-            'linkedin' => 'nullable|string|max:255',
-            'spesialisasi_id' => 'nullable|exists:spesialisasi,id',
-        ]);
-
-        $anggota = PesertaCalon::create(array_merge($validated, [
-            'ketua_id' => $ketua->id,
-            'kelompok_id' => $ketua->kelompok_id ?? null,
-        ]));
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Anggota berhasil ditambahkan.',
-            'data' => [
-                'id' => $anggota->id,
-                'nama_lengkap' => $anggota->nama_lengkap,
-                'email' => $anggota->email,
-                'no_telp' => $anggota->no_telp,
-                'github' => $anggota->github ?? '-',
-                'linkedin' => $anggota->linkedin ?? '-',
-                'spesialisasi' => optional($anggota->spesialisasi)->nama_spesialisasi ?? '-',
-            ],
-        ]);
-    }
-
     /**
      * Delete anggota via AJAX.
      */
     public function destroyAnggota(int $id): JsonResponse
     {
         try {
-            $ketua = Auth::guard('peserta')->user() ?? Auth::user();
+            $ketua = Auth::guard('peserta')->user();
 
             if (!$ketua) {
                 return response()->json([
@@ -266,28 +203,9 @@ class ProfileController extends Controller
                 ];
             });
 
-            
-
         return response()->json([
             'success' => true,
             'anggota' => $anggota,
         ]);
     }
-
-    /**
-     * Get the currently authenticated user from any guard.
-     */
-    private function getAuthenticatedUser()
-    {
-        return Auth::check() ? Auth::user() : Auth::guard('peserta')->user();
-    }
-
-    /**
-     * Get the active authentication guard name.
-     */
-    private function getActiveGuard(): ?string
-    {
-        return Auth::check() ? 'web' : (Auth::guard('peserta')->check() ? 'peserta' : null);
-    }
-
 }

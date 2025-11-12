@@ -14,32 +14,30 @@ return [
         ],
         'peserta' => [
             'driver' => 'session',
-            'provider' => 'pesertas',
+            'provider' => 'peserta_calon',
         ],
     ],
 
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class,
         ],
-        'pesertas' => [
+        'peserta_calon' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Peserta::class,
+            'model' => App\Models\PesertaCalon::class,
         ],
     ],
 
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            // 'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],
-        'pesertas' => [
-            'provider' => 'pesertas',
-            // 'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+        'peserta_calon' => [
+            'provider' => 'peserta_calon',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

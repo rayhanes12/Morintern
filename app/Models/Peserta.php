@@ -12,7 +12,7 @@ class Peserta extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $table = 'peserta_calon';
+    protected $table = 'pesertas';
 
         protected $fillable = [
         'nama_lengkap',
@@ -67,6 +67,12 @@ class Peserta extends Authenticatable
     {
         return $this->nama_lengkap;
     }
+
+    public function spesialisasi()
+    {
+        return $this->belongsTo(Spesialisasi::class, 'spesialisasi_id');
+    }
+    
 
     protected $casts = [
         'tanggal_mulai' => 'date',

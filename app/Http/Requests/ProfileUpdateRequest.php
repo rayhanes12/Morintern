@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use App\Models\Peserta;
+use App\Models\PesertaCalon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +17,9 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-    // Determine if we're dealing with a User or Peserta
+    // Determine if we're dealing with a User or PesertaCalon
     $user = Auth::check() ? Auth::user() : Auth::guard('peserta')->user();
-    $model = Auth::check() ? User::class : Peserta::class;
+    $model = Auth::check() ? User::class : PesertaCalon::class;
     $nameField = Auth::check() ? 'name' : 'nama_lengkap';
 
         return [

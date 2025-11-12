@@ -1,5 +1,4 @@
 /* Anima Design System CSS */
-@import url("https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:400,600");
 
 /* Reset form elements while preserving Tailwind utilities */
 input[type="email"],

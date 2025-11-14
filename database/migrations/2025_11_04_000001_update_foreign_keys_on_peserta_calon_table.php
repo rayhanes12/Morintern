@@ -116,26 +116,37 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (Schema::hasTable('calon_pesertas') || !Schema::hasTable('peserta_calon')) {
+        // Skip this migration if calon_pesertas table exists (newer schema)
+        if (Schema::hasTable('calon_pesertas')) {
             return;
         }
 
-        // 🔹 Drop FK hanya jika benar-benar ada di DB
-        $existingFKs = collect(DB::select("
-            SELECT CONSTRAINT_NAME
-            FROM information_schema.TABLE_CONSTRAINTS
-            WHERE TABLE_SCHEMA = DATABASE()
-            AND TABLE_NAME = 'peserta_calon'
-            AND CONSTRAINT_TYPE = 'FOREIGN KEY'
-        "))->pluck('CONSTRAINT_NAME')->toArray();
+        // Skip if peserta_calon doesn't exist
+        if (!Schema::hasTable('peserta_calon')) {
+            return;
+        }
 
-        Schema::table('peserta_calon', function (Blueprint $table) use ($existingFKs) {
-            if (in_array('peserta_calon_user_id_foreign', $existingFKs)) {
-                $table->dropForeign('peserta_calon_user_id_foreign');
-            }
+        Schema::table('peserta_calon', function (Blueprint $table) {
+            // Get all foreign keys for this table
+            $foreignKeys = DB::select(
+                "SELECT CONSTRAINT_NAME 
+                 FROM information_schema.TABLE_CONSTRAINTS 
+                 WHERE TABLE_SCHEMA = DATABASE() 
+                 AND TABLE_NAME = 'peserta_calon' 
+                 AND CONSTRAINT_TYPE = 'FOREIGN KEY'"
+            );
 
-            if (in_array('peserta_calon_ketua_id_foreign', $existingFKs)) {
-                $table->dropForeign('peserta_calon_ketua_id_foreign');
+            // Drop existing foreign keys if they exist
+            foreach ($foreignKeys as $key) {
+                if (str_contains($key->CONSTRAINT_NAME, 'user_id') || 
+                    str_contains($key->CONSTRAINT_NAME, 'ketua_id')) {
+                    try {
+                        $table->dropForeign($key->CONSTRAINT_NAME);
+                    } catch (\Throwable $e) {
+                        // ignore if fails
+                    }
+                }
+
             }
         });
 
@@ -176,21 +187,25 @@ return new class extends Migration
             return;
         }
 
-        $existingFKs = collect(DB::select("
-            SELECT CONSTRAINT_NAME
-            FROM information_schema.TABLE_CONSTRAINTS
-            WHERE TABLE_SCHEMA = DATABASE()
-            AND TABLE_NAME = 'peserta_calon'
-            AND CONSTRAINT_TYPE = 'FOREIGN KEY'
-        "))->pluck('CONSTRAINT_NAME')->toArray();
+        Schema::table('peserta_calon', function (Blueprint $table) {
+            // Get all foreign keys
+            $foreignKeys = DB::select(
+                "SELECT CONSTRAINT_NAME 
+                 FROM information_schema.TABLE_CONSTRAINTS 
+                 WHERE TABLE_SCHEMA = DATABASE() 
+                 AND TABLE_NAME = 'peserta_calon' 
+                 AND CONSTRAINT_TYPE = 'FOREIGN KEY'"
+            );
 
-        Schema::table('peserta_calon', function (Blueprint $table) use ($existingFKs) {
-            if (in_array('peserta_calon_user_id_foreign', $existingFKs)) {
-                $table->dropForeign('peserta_calon_user_id_foreign');
-            }
-
-            if (in_array('peserta_calon_ketua_id_foreign', $existingFKs)) {
-                $table->dropForeign('peserta_calon_ketua_id_foreign');
+            foreach ($foreignKeys as $key) {
+                if (str_contains($key->CONSTRAINT_NAME, 'user_id') || 
+                    str_contains($key->CONSTRAINT_NAME, 'ketua_id')) {
+                    try {
+                        $table->dropForeign($key->CONSTRAINT_NAME);
+                    } catch (\Throwable $e) {
+                        // ignore
+                    }
+                }
             }
         });
     }

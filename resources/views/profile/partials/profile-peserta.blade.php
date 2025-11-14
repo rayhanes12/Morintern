@@ -1,3 +1,15 @@
+@if (session('success'))
+    <div class="max-w-4xl mx-auto mb-4 p-4 bg-green-100 border border-green-300 text-green-800 rounded-md">
+        {{ session('success') }}
+    </div>
+@endif
+@if (session('error'))
+    <div class="max-w-4xl mx-auto mb-4 p-4 bg-red-100 border border-red-300 text-red-800 rounded-md">
+        {{ session('error') }}
+    </div>
+@endif
+
+
 {{-- FORM PROFIL PESERTA (KETUA + ANGGOTA) --}}
 
 <section id="profile-peserta" class="max-w-4xl mx-auto pt-12 pb-24 px-6 space-y-10">
@@ -134,6 +146,7 @@
             </button>
         </div>
     </form>
+    
 
     {{-- Template Anggota Baru --}}
     <template id="anggotaTemplate">

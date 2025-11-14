@@ -44,4 +44,4 @@ Route::post('/peserta/reset-password', [NewPasswordController::class, 'store'])
 
 // Google OAuth
 Route::get('/peserta/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('peserta.google.login');
-Route::get('/peserta/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']); 
+Route::get('/peserta/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);

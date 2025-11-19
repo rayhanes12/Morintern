@@ -156,9 +156,9 @@ return new class extends Migration
                 $table->unsignedBigInteger('user_id')->nullable()->change();
             }
             if (Schema::hasColumn('peserta_calon', 'ketua_id')) {
-                $table->unsignedInteger('ketua_id')->nullable()->change();
+                $table->unsignedBigInteger('ketua_id')->nullable()->change();
             } else {
-                $table->unsignedInteger('ketua_id')->nullable()->after('user_id');
+                $table->unsignedBigInteger('ketua_id')->nullable()->after('user_id');
             }
 
         }); 

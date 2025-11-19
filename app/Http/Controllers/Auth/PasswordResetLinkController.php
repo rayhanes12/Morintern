@@ -29,8 +29,8 @@ class PasswordResetLinkController extends Controller
             'email' => ['required', 'email'],
         ]);
 
-        // First attempt: try sending reset link as a Peserta (pesertas broker)
-        $status = Password::broker('pesertas')->sendResetLink(
+        // First attempt: try sending reset link as a Peserta (broker name must match config)
+        $status = Password::broker('peserta_calon')->sendResetLink(
             $request->only('email')
         );
 

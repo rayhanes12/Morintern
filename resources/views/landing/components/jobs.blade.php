@@ -28,7 +28,7 @@
     </div>
 </section>
 <!-- Jobs section -->
-<section id="lowongan" class="py-16">
+{{-- <section id="lowongan" class="py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">LOWONGAN TERSEDIA</h2>
 
@@ -172,7 +172,7 @@
             </a>
             <a href="#" class="block mt-4 text-[#678DE5] hover:underline">
                 LIHAT LOWONGAN LAINNYA
-            </a>
+            </a>    
         </div>
     </div>
-</section>
+</section> --}}

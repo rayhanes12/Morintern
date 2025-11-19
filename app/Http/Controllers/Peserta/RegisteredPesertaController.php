@@ -29,7 +29,8 @@ class RegisteredPesertaController extends Controller
         $peserta = PesertaCalon::create([
             'nama_lengkap' => $request->nama_lengkap,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            // Let the model hash the password to avoid double-hashing
+            'password' => $request->password,
             'no_telp' => $request->no_telp,
             'github' => '-', // default kosong
             'linkedin' => '-', // default kosong
@@ -45,6 +46,7 @@ class RegisteredPesertaController extends Controller
 
         Auth::guard('peserta')->login($peserta);
 
-        return redirect()->intended('/dashboard');
+        // Redirect to landing page after registration
+        return redirect()->route('landing');
     }
 }

@@ -22,7 +22,7 @@
     </head>
     <body class="bg-white">
         <!-- Navbar -->
-        @if (Route::has('login'))
+        @if (Route::has('peserta.login'))
             <nav class="bg-white border-b border-gray-200">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-center h-16">
@@ -40,7 +40,7 @@
                                     Dashboard
                                 </a>
                             @else
-                                <a href="{{ route('login') }}" class="text-gray-700 hover:text-gray-900 font-medium">
+                                <a href="{{ route('peserta.login') }}" class="text-gray-700 hover:text-gray-900 font-medium">
                                     Login
                                 </a>
                                 @if (Route::has('peserta.register'))

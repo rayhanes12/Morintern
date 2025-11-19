@@ -7,6 +7,8 @@ use App\Models\PesertaCalon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProfileUpdateRequest extends FormRequest
 {
@@ -17,23 +19,40 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-    // Determine if we're dealing with a User or PesertaCalon
-    $user = Auth::check() ? Auth::user() : Auth::guard('peserta')->user();
-    $model = Auth::check() ? User::class : PesertaCalon::class;
-    $nameField = Auth::check() ? 'name' : 'nama_lengkap';
+        $authUser = Auth::check() ? Auth::user() : Auth::guard('peserta')->user();
+        $model = Auth::check() ? User::class : PesertaCalon::class;
+        $nameField = Auth::check() ? 'name' : 'nama_lengkap';
 
-        return [
+        $rules = [
             $nameField => ['required', 'string', 'max:255'],
-            'no_telp' => Auth::guard('peserta')->check() ? ['nullable', 'string', 'max:20'] : [],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique($model)->ignore($user->id),
-            ],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique($model)->ignore($authUser->id)],
+            'no_telp' => ['nullable', 'string', 'max:20'],
+            'github' => ['nullable', 'string', 'max:255'],
+            'linkedin' => ['nullable', 'string', 'max:255'],
+            'spesialisasi_id' => ['nullable', 'integer', Rule::exists('spesialisasi', 'id')],
+            'universitas_id' => ['nullable', 'string', 'max:255'],
+            'jurusan_id' => ['nullable', 'string', 'max:255'],
+            'tanggal_mulai' => ['nullable', 'date'],
+            'tanggal_selesai' => ['nullable', 'date', 'after_or_equal:tanggal_mulai'],
+            'cv' => ['nullable', 'file', 'mimes:zip', 'max:10240'],
+            'surat' => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:2048'],
         ];
+
+        if ($this->has('anggota')) {
+            $ketuaId = $authUser?->id;
+            $rules = array_merge($rules, [
+                'anggota' => ['array'],
+                'anggota.*.id' => ['nullable', 'integer', Rule::exists('peserta_calon', 'id')->where('ketua_id', $ketuaId)],
+                'anggota.*.nama_lengkap' => ['required', 'string', 'max:100'],
+                'anggota.*.no_telp' => ['nullable', 'string', 'max:20'],
+                'anggota.*.email' => ['nullable', 'email', 'max:100'],
+                'anggota.*.github' => ['nullable', 'string', 'max:255'],
+                'anggota.*.linkedin' => ['nullable', 'string', 'max:255'],
+                'anggota.*.spesialisasi_id' => ['nullable', 'integer', Rule::exists('spesialisasi', 'id')],
+            ]);
+        }
+
+        return $rules;
     }
 
     /**
@@ -41,12 +60,25 @@ class ProfileUpdateRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        // If this is an intern, map the name field
         if (Auth::guard('peserta')->check()) {
             $this->merge([
                 'nama_lengkap' => $this->input('name'),
             ]);
         }
+    }
+
+    public function authorize(): bool
+    {
+        return Auth::check() || Auth::guard('peserta')->check();
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'validation failed',
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }
 

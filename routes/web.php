@@ -28,6 +28,14 @@ Route::middleware(\App\Http\Middleware\AuthAny::class)->group(function () {
     Route::match(['post', 'patch'], '/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Secure file downloads (signed URLs)
+    Route::middleware('signed')->group(function () {
+        Route::get('/files/peserta/{peserta}/cv', [ProfileController::class, 'downloadCv'])->name('files.peserta.cv.download');
+        Route::get('/files/peserta/{peserta}/surat', [ProfileController::class, 'downloadSurat'])->name('files.peserta.surat.download');
+        Route::get('/files/calon/{calon}/cv', [ProfileController::class, 'downloadCvCalon'])->name('files.calon.cv.download');
+        Route::get('/files/calon/{calon}/surat', [ProfileController::class, 'downloadSuratCalon'])->name('files.calon.surat.download');
+    });
+
     // Anggota management (AJAX)
     Route::prefix('profile/anggota')->name('profile.anggota.')->group(function () {
         Route::get('/', [ProfileController::class, 'getAnggota'])->name('index');
@@ -43,8 +51,8 @@ Route::middleware(\App\Http\Middleware\AuthAny::class)->group(function () {
 // HRD Dashboard Routes
 Route::prefix('hrd')->middleware('auth:web')->name('hrd.')->group(function () {
     Route::get('/calon', [App\Http\Controllers\Hrd\PesertaController::class, 'index'])->name('peserta.index');
-    Route::post('/calon/{id}/approve', [App\Http\Controllers\Hrd\PesertaController::class, 'approve'])->name('peserta.approve');
-    Route::post('/calon/{id}/reject', [App\Http\Controllers\Hrd\PesertaController::class, 'reject'])->name('peserta.reject');
+    Route::post('/calon/{calon}/approve', [App\Http\Controllers\Hrd\PesertaController::class, 'approve'])->name('peserta.approve');
+    Route::post('/calon/{calon}/reject', [App\Http\Controllers\Hrd\PesertaController::class, 'reject'])->name('peserta.reject');
 });
 
 

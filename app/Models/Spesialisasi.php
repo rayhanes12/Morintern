@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Spesialisasi extends Model
 {
@@ -18,8 +19,13 @@ class Spesialisasi extends Model
     ];
 
     // ✅ Relasi ke tabel calon_pesertas
-    public function calonPesertas()
+    public function calonPesertas(): HasMany
     {
         return $this->hasMany(CalonPeserta::class, 'spesialisasi_id');
+    }
+
+    public function pesertas(): HasMany
+    {
+        return $this->hasMany(Peserta::class, 'spesialisasi_id');
     }
 }

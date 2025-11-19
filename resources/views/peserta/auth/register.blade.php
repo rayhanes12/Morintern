@@ -35,8 +35,8 @@
             {{-- Left: Illustration --}}
             <div class="flex justify-center">
                 <img src="{{ asset('assets/landing/ilustrasi-register.svg') }}" 
-                     alt="Register Illustration"
-                     class="max-w-[450px] h-auto">
+                    alt="Register Illustration"
+                    class="max-w-[450px] h-auto">
             </div>
 
             {{-- Right: Form Card --}}
@@ -59,14 +59,14 @@
                             Nama Lengkap
                         </label>
                         <input id="nama_lengkap" 
-                               type="text" 
-                               name="nama_lengkap" 
-                               value="{{ old('nama_lengkap') }}"
-                               required 
-                               autofocus 
-                               autocomplete="name"
-                               placeholder="Masukkan nama lengkap"
-                               class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
+                            type="text" 
+                            name="nama_lengkap" 
+                            value="{{ old('nama_lengkap') }}"
+                            required 
+                            autofocus 
+                            autocomplete="name"
+                            placeholder="Masukkan nama lengkap"
+                            class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
                         @error('nama_lengkap')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -78,13 +78,13 @@
                             Alamat Email
                         </label>
                         <input id="email" 
-                               type="email" 
-                               name="email" 
-                               value="{{ old('email') }}"
-                               required 
-                               autocomplete="username"
-                               placeholder="contoh@email.com"
-                               class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
+                            type="email" 
+                            name="email" 
+                            value="{{ old('email') }}"
+                            required 
+                            autocomplete="username"
+                            placeholder="contoh@email.com"
+                            class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
                         @error('email')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror

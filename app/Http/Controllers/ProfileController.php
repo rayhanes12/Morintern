@@ -53,20 +53,23 @@ class ProfileController extends Controller
             ], 401);
         }
 
-        $validated = $request->validate([
-            'nama_lengkap' => 'required|string|max:100',
-            'no_telp' => 'nullable|string|max:20',
-            'email' => 'required|email|max:100',
-            'github' => 'nullable|string|max:255',
-            'linkedin' => 'nullable|string|max:255',
-            'spesialisasi_id' => 'nullable|exists:spesialisasi,id',
-            'universitas_id' => 'nullable|string|max:255',
-            'jurusan_id' => 'nullable|string|max:255',
-            'tanggal_mulai' => 'nullable|date',
-            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
-            'cv' => 'nullable|file|mimes:zip|max:10240',
-            'surat' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
-        ]);
+    $validated = $request->validate([
+    'nama_lengkap' => 'required|string|max:100',
+    'no_telp' => 'nullable|string|max:20',
+    'github' => 'nullable|string|max:255',
+    'linkedin' => 'nullable|string|max:255',
+    'spesialisasi_id' => 'nullable|exists:spesialisasi,id',
+    'universitas_id' => 'nullable|string|max:255',
+    'jurusan_id' => 'nullable|string|max:255',
+    'tanggal_mulai' => 'nullable|date',
+    'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
+    'cv' => 'nullable|file|mimes:zip|max:10240',
+    'surat' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+]);
+
+// tambahkan manual email dari user
+$validated['email'] = $user->email;
+
 
         // Handle file uploads
         if ($request->hasFile('cv')) {
@@ -93,27 +96,44 @@ class ProfileController extends Controller
                     'github' => 'nullable|string|max:255',
                     'linkedin' => 'nullable|string|max:255',
                     'spesialisasi_id' => 'nullable|exists:spesialisasi,id',
+                    'universitas_id' => 'nullable|string|max:255',
+                    'jurusan_id' => 'nullable|string|max:255',
+                    'tanggal_mulai' => 'nullable|date',
+                    'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
                 ])->validate();
+
+                // Prepare fields that should always be linked to ketua (main account)
+                $linked = [
+                    'universitas_id' => $user->universitas_id ?? null,
+                    'jurusan_id' => $user->jurusan_id ?? null,
+                    'tanggal_mulai' => $user->tanggal_mulai ?? null,
+                    'tanggal_selesai' => $user->tanggal_selesai ?? null,
+                    'cv' => $user->cv ?? null,
+                    'surat' => $user->surat ?? null,
+                    'kelompok_id' => $user->kelompok_id ?? null,
+                ];
 
                 if (!empty($anggotaItem['id'])) {
                     $existingAnggota = PesertaCalon::where('ketua_id', $user->id)
                         ->find($anggotaItem['id']);
                     if ($existingAnggota) {
-                        $existingAnggota->update($anggotaValidated);
+                        // Merge validated fields but force linked fields to ketua values
+                        $existingAnggota->update(array_merge($anggotaValidated, $linked));
                     }
                 } else {
+                    // Create anggota without password (password is nullable)
                     PesertaCalon::create(array_merge($anggotaValidated, [
                         'ketua_id' => $user->id,
-                        'kelompok_id' => $user->kelompok_id ?? null,
+                    ], $linked, [
+                        // prefer provided github/linkedin but fallback to ketua
+                        'github' => $anggotaValidated['github'] ?? $user->github ?? null,
+                        'linkedin' => $anggotaValidated['linkedin'] ?? $user->linkedin ?? null,
                     ]));
                 }
             }
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Profil dan anggota berhasil disimpan.',
-        ]);
+    return redirect()->back()->with('success', 'Profil dan anggota berhasil disimpan.');
     }
 
     /**
@@ -121,13 +141,18 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Determine which guard is authenticated
+        $guard = Auth::guard('peserta')->check() ? 'peserta' : 'web';
+        $passwordRule = 'current_password:' . $guard;
+        
         $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+            'password' => ['required', $passwordRule],
         ]);
 
-        $user = $request->user();
+        // Get user from the appropriate guard
+        $user = Auth::guard('peserta')->check() ? Auth::guard('peserta')->user() : Auth::user();
 
-        Auth::logout();
+        Auth::guard($guard)->logout();
 
         $user->delete();
 
@@ -158,10 +183,8 @@ class ProfileController extends Controller
 
         $user->update($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Profil berhasil diperbarui.',
-        ]);
+    return redirect()->back()->with
+    ('success', 'Profil dan anggota berhasil disimpan.');
     }
 
     /**
@@ -178,11 +201,28 @@ class ProfileController extends Controller
             'github' => 'nullable|string|max:255',
             'linkedin' => 'nullable|string|max:255',
             'spesialisasi_id' => 'nullable|exists:spesialisasi,id',
+            'universitas_id' => 'nullable|string|max:255',
+            'jurusan_id' => 'nullable|string|max:255',
+            'tanggal_mulai' => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
         ]);
+
+        // Force linked fields to ketua values so anggota are linked to the ketua's profile
+        $linked = [
+            'universitas_id' => $ketua->universitas_id ?? null,
+            'jurusan_id' => $ketua->jurusan_id ?? null,
+            'tanggal_mulai' => $ketua->tanggal_mulai ?? null,
+            'tanggal_selesai' => $ketua->tanggal_selesai ?? null,
+            'cv' => $ketua->cv ?? null,
+            'surat' => $ketua->surat ?? null,
+            'kelompok_id' => $ketua->kelompok_id ?? null,
+        ];
 
         $anggota = PesertaCalon::create(array_merge($validated, [
             'ketua_id' => $ketua->id,
-            'kelompok_id' => $ketua->kelompok_id ?? null,
+        ], $linked, [
+            'github' => $validated['github'] ?? $ketua->github ?? null,
+            'linkedin' => $validated['linkedin'] ?? $ketua->linkedin ?? null,
         ]));
 
         return response()->json([
@@ -250,7 +290,7 @@ class ProfileController extends Controller
 
         $anggota = PesertaCalon::where('ketua_id', $ketua->id)
             ->with('spesialisasi')
-            ->select('id', 'nama_lengkap', 'email', 'no_telp', 'github', 'linkedin', 'spesialisasi_id', 'tanggal_mulai', 'tanggal_selesai')
+            ->select('id', 'nama_lengkap', 'email', 'no_telp', 'github', 'linkedin', 'spesialisasi_id', 'tanggal_mulai', 'tanggal_selesai', 'universitas_id', 'jurusan_id', 'cv', 'surat', 'kelompok_id')
             ->get()
             ->map(function ($a) {
                 return [
@@ -263,6 +303,11 @@ class ProfileController extends Controller
                     'spesialisasi' => optional($a->spesialisasi)->nama_spesialisasi ?? '-',
                     'tanggal_mulai' => $a->tanggal_mulai?->format('Y-m-d') ?? '-',
                     'tanggal_selesai' => $a->tanggal_selesai?->format('Y-m-d') ?? '-',
+                    'universitas_id' => $a->universitas_id ?? null,
+                    'jurusan_id' => $a->jurusan_id ?? null,
+                    'cv' => $a->cv ?? null,
+                    'surat' => $a->surat ?? null,
+                    'kelompok_id' => $a->kelompok_id ?? null,
                 ];
             });
 

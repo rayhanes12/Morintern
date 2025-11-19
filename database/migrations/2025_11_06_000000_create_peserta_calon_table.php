@@ -8,11 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (Schema::hasTable('peserta_calon')) {
+            return;
+        }
+
         Schema::create('peserta_calon', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama_lengkap', 100);
             $table->string('email', 100)->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('no_telp', 20)->nullable();
             $table->string('universitas_id', 100)->nullable();
             $table->string('jurusan_id', 100)->nullable();

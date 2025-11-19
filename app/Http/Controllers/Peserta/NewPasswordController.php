@@ -56,7 +56,7 @@ class NewPasswordController extends Controller
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
             }
-            return redirect('/login')->with('status', __($status));
+            return redirect('peserta/login')->with('status', __($status));
         }
         
         return back()->withErrors(['email' => [__($status)]]);

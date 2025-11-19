@@ -48,9 +48,18 @@ class PesertaCalon extends Authenticatable
     // 🔹 Auto hash password saat diset
     public function setPasswordAttribute($value)
     {
-        if (!empty($value) && $value !== $this->password) {
-            $this->attributes['password'] = Hash::make($value);
+        if (empty($value)) {
+            return;
         }
+
+        // If the value looks like an already-hashed password (bcrypt/argon prefixes),
+        // store it as-is. Otherwise, hash it once.
+        if (str_starts_with($value, '$2y$') || str_starts_with($value, '$2a$') || str_starts_with($value, '$argon')) {
+            $this->attributes['password'] = $value;
+            return;
+        }
+
+        $this->attributes['password'] = Hash::make($value);
     }
 
     // 🔹 Relasi ke spesialisasi

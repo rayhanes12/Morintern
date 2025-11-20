@@ -6,4 +6,9 @@
 @source '../**/*.js';
 @source './anima/globals.css';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "./anima/globals.css";
+/* custom CSS */

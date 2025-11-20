@@ -6,47 +6,33 @@ use App\Models\PenilaianMagang;
 use Filament\Pages\Page;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\FileUpload;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 
-class PenilaianMagangPage extends Page implements Forms\Contracts\HasForms, Tables\Contracts\HasTable
+class PenilaianMagangPage extends Page implements
+    Forms\Contracts\HasForms,
+    Tables\Contracts\HasTable
 {
     use Forms\Concerns\InteractsWithForms;
     use Tables\Concerns\InteractsWithTable;
 
-    public function getTitle(): string
-    {
-        return 'Penilaian Magang';
-    }
+    protected static ?string $title = 'Penilaian Magang';
+    protected static ?string $slug = 'penilaian-magang';
 
-    public static function getNavigationIcon(): string
-    {
-        return 'heroicon-o-document-text';
-    }
+    protected static string $view = 'filament.admin.pages.penilaian-magang-page';
 
-    public static function getNavigationGroup(): string
-    {
-        return 'Magang';
-    }
+    public ?array $data = [];
 
-    public function getView(): string
-    {
-        return 'filament.pages.penilaian-magang-page';
-    }
-
-
-    // Query data tabel
     public function getTableQuery()
     {
         return PenilaianMagang::query();
     }
 
-    // 🔹 Bagian form input penilaian
     public function form(Form $form): Form
     {
         return $form
@@ -55,8 +41,8 @@ class PenilaianMagangPage extends Page implements Forms\Contracts\HasForms, Tabl
                     ->label('Pilih Anggota Magang')
                     ->options([
                         'Siti Khodijah' => 'Siti Khodijah',
-                        'Ahmad Satria Wibowo' => 'Ahmad Satria Wibowo',
-                        'Arda Yudrik' => 'Arda Yudrik',
+                        'Ahmad Fauzan' => 'Ahmad Fauzan',
+                        'Rina Marlina' => 'Rina Marlina',
                     ])
                     ->searchable()
                     ->required(),
@@ -85,7 +71,6 @@ class PenilaianMagangPage extends Page implements Forms\Contracts\HasForms, Tabl
             ->statePath('data');
     }
 
-    // 🔹 Bagian tabel daftar penilaian
     public function table(Table $table): Table
     {
         return $table
@@ -101,7 +86,6 @@ class PenilaianMagangPage extends Page implements Forms\Contracts\HasForms, Tabl
             ->emptyStateHeading('Belum ada data penilaian');
     }
 
-    // 🔹 Saat form disubmit
     public function save(): void
     {
         PenilaianMagang::create($this->form->getState());

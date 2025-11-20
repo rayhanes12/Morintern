@@ -13,7 +13,7 @@ class SpesialisasiChart extends ChartWidget
         return 'Distribusi Peserta per Spesialisasi';
     }
     
-    public static function getSort(): ?int
+    public static function getSort(): int
     {
         return 3;
     }

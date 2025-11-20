@@ -13,7 +13,7 @@ class PendaftaranChart extends ChartWidget
         return 'Pendaftaran Magang per Bulan';
     }
     
-    public static function getSort(): ?int
+    public static function getSort(): int
     {
         return 2;
     }

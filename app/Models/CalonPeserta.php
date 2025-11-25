@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CalonPeserta extends Model
 {
     use HasFactory;
+
+    protected $with = ['spesialisasi'];
 
     protected $fillable = [
         'nama_lengkap',
@@ -27,7 +30,7 @@ class CalonPeserta extends Model
     ];
 
     // Relasi ke tabel spesialisasi
-    public function spesialisasi()
+    public function spesialisasi(): BelongsTo
     {
         return $this->belongsTo(Spesialisasi::class, 'spesialisasi_id');
     }

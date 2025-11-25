@@ -6,13 +6,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use App\Notifications\PesertaResetPasswordNotification;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PesertaCalon extends Authenticatable
 {
     use HasFactory, Notifiable;
 
     protected $table = 'peserta_calon';
+
+    protected $with = ['spesialisasi'];
 
     protected $fillable = [
         'nama_lengkap',
@@ -62,35 +66,17 @@ class PesertaCalon extends Authenticatable
         $this->attributes['password'] = Hash::make($value);
     }
 
-    // 🔹 Relasi ke spesialisasi
-    public function spesialisasi()
+    public function spesialisasi(): BelongsTo
     {
         return $this->belongsTo(Spesialisasi::class, 'spesialisasi_id');
     }
 
-    // 🔹 Relasi ke ketua (self join)
-    public function ketua()
+    public function ketua(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'ketua_id');
+        return $this->belongsTo(Peserta::class, 'ketua_id');
     }
 
-    // 🔹 Relasi ke anggota
-    public function anggota()
-    {
-        return $this->hasMany(self::class, 'ketua_id');
-    }
 
-    // 🔹 Relasi ke perusahaan
-    public function perusahaan()
-    {
-        return $this->belongsTo(Perusahaan::class, 'perusahaan_id');
-    }
-
-    // 🔹 Relasi ke kelompok (jika ada)
-    public function kelompok()
-    {
-        return $this->belongsTo(Kelompok::class, 'kelompok_id');
-    }
 
     // 🔹 Untuk notifikasi reset password
     public function sendPasswordResetNotification($token)
@@ -102,5 +88,21 @@ class PesertaCalon extends Authenticatable
     public function getNameAttribute()
     {
         return $this->nama_lengkap;
+    }
+
+    public function getCvUrlAttribute(): ?string
+    {
+        if (! $this->cv) {
+            return null;
+        }
+        return URL::temporarySignedRoute('files.calon.cv.download', now()->addMinutes(15), ['calon' => $this->id]);
+    }
+
+    public function getSuratUrlAttribute(): ?string
+    {
+        if (! $this->surat) {
+            return null;
+        }
+        return URL::temporarySignedRoute('files.calon.surat.download', now()->addMinutes(15), ['calon' => $this->id]);
     }
 }

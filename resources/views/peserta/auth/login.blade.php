@@ -38,8 +38,8 @@
             {{-- Left: Illustration --}}
             <div class="flex justify-center items-center">
                 <img src="{{ asset('assets/landing/illustrasi-login.png') }}" 
-                     alt="Login Illustration"
-                     class="max-w-[450px] h-auto">
+                    alt="Login Illustration"
+                    class="max-w-[450px] h-auto">
             </div>
 
             {{-- Right: Form Card --}}
@@ -66,14 +66,14 @@
                                 <i data-feather="mail" class="w-5 h-5 text-gray-400"></i>
                             </div>
                             <input id="email" 
-                                   type="email" 
-                                   name="email" 
-                                   value="{{ old('email') }}"
-                                   required 
-                                   autofocus 
-                                   autocomplete="username"
-                                   placeholder="contoh@email.com"
-                                   class="w-full h-12 pl-10 pr-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
+                                type="email" 
+                                name="email" 
+                                value="{{ old('email') }}"
+                                required 
+                                autofocus 
+                                autocomplete="username"
+                                placeholder="contoh@email.com"
+                                class="w-full h-12 pl-10 pr-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
                         </div>
                         @error('email')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -90,12 +90,12 @@
                                 <i data-feather="lock" class="w-5 h-5 text-gray-400"></i>
                             </div>
                             <input id="password" 
-                                   type="password" 
-                                   name="password" 
-                                   required 
-                                   autocomplete="current-password"
-                                   placeholder="Masukkan password"
-                                   class="w-full h-12 pl-10 pr-12 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
+                                type="password" 
+                                name="password" 
+                                required 
+                                autocomplete="current-password"
+                                placeholder="Masukkan password"
+                                class="w-full h-12 pl-10 pr-12 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
                             <button type="button" 
                                     id="togglePassword"
                                     class="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -110,9 +110,9 @@
                     {{-- Remember Me --}}
                     <div class="flex items-center">
                         <input id="remember_me" 
-                               type="checkbox" 
-                               name="remember" 
-                               class="h-4 w-4 text-[#6F8FF9] focus:ring-[#6F8FF9] border-gray-300 rounded">
+                            type="checkbox" 
+                            name="remember" 
+                            class="h-4 w-4 text-[#6F8FF9] focus:ring-[#6F8FF9] border-gray-300 rounded">
                         <label for="remember_me" class="ml-2 block text-sm text-gray-700">
                             Ingat saya
                         </label>
@@ -130,13 +130,13 @@
                     <div class="space-y-2 pt-2">
                         <div class="text-center">
                             <a href="{{ route('peserta.register') }}"
-                               class="text-sm text-gray-600 hover:text-[#6F8FF9] transition-colors">
+                            class="text-sm text-gray-600 hover:text-[#6F8FF9] transition-colors">
                                 Belum Punya Akun? <span class="font-semibold">Daftar Disini</span>
                             </a>
                         </div>
                         <div class="text-center">
                             <a href="{{ route('peserta.password.request') }}"
-                               class="text-sm text-gray-500 hover:text-[#6F8FF9] transition-colors">
+                            class="text-sm text-gray-500 hover:text-[#6F8FF9] transition-colors">
                                 Lupa Kata Sandi?
                             </a>
                         </div>

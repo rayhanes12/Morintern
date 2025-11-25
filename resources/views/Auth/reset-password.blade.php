@@ -1,44 +1,111 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+    <title>Reset Password - {{ config('app.name') }}</title>
 
-        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            {{-- {{ __('Buat Kata Sandi Baru') }} --}}
-            {{ __('Buat kata sandi baru. Pastikan itu berbeda dari yang sebelumnya untuk keamanan') }}
+    {{-- Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    {{-- Vite --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="min-h-screen w-full flex items-center justify-center bg-[#6F8FF9] px-6">
+
+        {{-- Brand --}}
+        <div class="absolute top-8 left-8">
+            <a href="{{ url('/') }}" class="text-2xl font-bold tracking-tight">
+                <span class="text-white">Mor</span>
+                <span class="text-[#6F8FF9] bg-white px-1 rounded">Intern</span>
+            </a>
         </div>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        {{-- Card --}}
+        <div class="bg-white rounded-lg shadow-md p-8 w-full max-w-md">
+
+            {{-- Header --}}
+            <div class="text-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">Reset Password</h1>
+                <p class="text-gray-500 text-sm">
+                    Buat kata sandi baru yang lebih aman dari sebelumnya.
+                </p>
+            </div>
+
+            {{-- Form --}}
+            <form method="POST" action="{{ route('password.store') }}" class="space-y-4">
+                @csrf
+
+                {{-- Token --}}
+                <input type="hidden" name="token" value="{{ $request->route('token') }}">
+
+                {{-- Email --}}
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                        Email
+                    </label>
+                    <input id="email" type="email" name="email"
+                        value="{{ old('email', $request->email) }}"
+                        required autofocus autocomplete="username"
+                        class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9]
+                               text-gray-900 placeholder-gray-400
+                               focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9]/20 transition">
+                    @error('email')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Password --}}
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                        Kata Sandi Baru
+                    </label>
+                    <input id="password" type="password" name="password"
+                        required autocomplete="new-password"
+                        placeholder="Masukkan kata sandi"
+                        class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9]
+                               focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9]/20 transition">
+                    @error('password')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Password Confirmation --}}
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">
+                        Konfirmasi Kata Sandi
+                    </label>
+                    <input id="password_confirmation" type="password" name="password_confirmation"
+                        required autocomplete="new-password"
+                        placeholder="Ulangi kata sandi"
+                        class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9]
+                               focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9]/20 transition">
+                    @error('password_confirmation')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Submit --}}
+                <button type="submit"
+                    class="w-full bg-[#6F8FF9] text-white py-3 rounded-lg font-semibold
+                           hover:bg-[#5A79E6] transition shadow-md">
+                    Perbarui Kata Sandi
+                </button>
+
+            </form>
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Kata Sandi')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+    </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Konfirmasi Kata Sandi')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Perbarui Kata Sandi') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</body>
+</html>

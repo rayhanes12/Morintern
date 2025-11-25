@@ -1,41 +1,82 @@
-<!-- Features (program) section - matches Figma Frame24 -->
-<section id="program" class="bg-white">
+<!-- Features (Program) Section - Modern Professional -->
+<section class="bg-white py-20">
     <div class="max-w-[1440px] mx-auto px-8 lg:px-12">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-white py-16">
-            <!-- Left collage (2x2 rounded photos like reference) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            <!-- Left Image Collage -->
             <div class="flex justify-center lg:justify-start">
-                <div class="grid grid-cols-2 w-[400px]">
-                    <div class="relative w-full pb-[100%]">
-                        <img src="{{ asset('assets/landing/feature-1.jpg') }}" alt="Feature 1"
-                            class="absolute inset-0 w-full h-full object-cover rounded-tl-[32px] rounded-br-[32px]">
+                <div class="grid grid-cols-2 gap-4 w-[420px]">
+
+                    <div class="relative w-full pb-[100%] shadow-lg rounded-3xl overflow-hidden">
+                        <img src="{{ asset('assets/landing/feature-1.jpg') }}"
+                             class="absolute inset-0 w-full h-full object-cover">
                     </div>
-                    <div class="relative w-full pb-[100%]">
-                        <img src="{{ asset('assets/landing/feature-2.jpg') }}" alt="Feature 2"
-                            class="absolute inset-0 w-full h-full object-cover rounded-tr-[32px] rounded-bl-[32px]">
+
+                    <div class="relative w-full pb-[100%] shadow-lg rounded-3xl overflow-hidden">
+                        <img src="{{ asset('assets/landing/feature-2.jpg') }}"
+                             class="absolute inset-0 w-full h-full object-cover">
                     </div>
-                    <div class="relative w-full pb-[100%]">
-                        <img src="{{ asset('assets/landing/feature-3.jpg') }}" alt="Feature 3"
-                            class="absolute inset-0 w-full h-full object-cover rounded-tr-[32px] rounded-bl-[32px]">
+
+                    <div class="relative w-full pb-[100%] shadow-lg rounded-3xl overflow-hidden">
+                        <img src="{{ asset('assets/landing/feature-3.jpg') }}"
+                             class="absolute inset-0 w-full h-full object-cover">
                     </div>
-                    <div class="relative w-full pb-[100%]">
-                        <img src="{{ asset('assets/landing/feature-4.jpg') }}" alt="Feature 4"
-                            class="absolute inset-0 w-full h-full object-cover rounded-tl-[32px] rounded-br-[32px]">
+
+                    <div class="relative w-full pb-[100%] shadow-lg rounded-3xl overflow-hidden">
+                        <img src="{{ asset('assets/landing/feature-4.jpg') }}"
+                             class="absolute inset-0 w-full h-full object-cover">
                     </div>
+
                 </div>
             </div>
 
-            <!-- Right text -->
+            <!-- Right Text Content -->
             <div>
-                <h2 class="text-2xl lg:text-3xl font-bold text-center lg:text-left text-[#1E40AF]">Program MorIntern dirancang untuk memberikan pengalaman kerja nyata di dunia industri.</h2>
-                <p class="mt-6 text-gray-700 max-w-xl">Selama masa magang, peserta akan:</p>
-                <ul class="mt-6 space-y-3 list-none text-gray-700">
-                    <li class="flex items-start gap-3"><span class="mt-1 text-[#648DDB]">•</span> Berkolaborasi dengan tim profesional di berbagai bidang.</li>
-                    <li class="flex items-start gap-3"><span class="mt-1 text-[#648DDB]">•</span> Mengerjakan proyek nyata yang berdampak.</li>
-                    <li class="flex items-start gap-3"><span class="mt-1 text-[#648DDB]">•</span> Mendapatkan bimbingan dari mentor berpengalaman.</li>
-                    <li class="flex items-start gap-3"><span class="mt-1 text-[#648DDB]">•</span> Mengembangkan portofolio dan keterampilan kerja.</li>
+                <h2 class="text-3xl lg:text-4xl font-bold text-[#1F2937] leading-tight">
+                    Program MorIntern dirancang untuk memberikan 
+                    <span class="bg-gradient-to-r from-[#648DDB] to-[#3B82F6] text-transparent bg-clip-text">
+                        pengalaman kerja nyata
+                    </span>
+                    di dunia industri.
+                </h2>
+
+                <p class="mt-6 text-gray-600 max-w-lg leading-relaxed">
+                    Selama masa magang, peserta akan mendapatkan kombinasi pengalaman praktis
+                    dan bimbingan yang meningkatkan kesiapan karier.
+                </p>
+
+                <ul class="mt-8 space-y-4">
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-3 h-3 rounded-full bg-[#648DDB]"></div>
+                        <span class="text-gray-700">
+                            Berkolaborasi dengan tim profesional lintas divisi.
+                        </span>
+                    </li>
+
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-3 h-3 rounded-full bg-[#648DDB]"></div>
+                        <span class="text-gray-700">
+                            Mengembangkan proyek nyata yang memberikan dampak langsung.
+                        </span>
+                    </li>
+
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-3 h-3 rounded-full bg-[#648DDB]"></div>
+                        <span class="text-gray-700">
+                            Mendapatkan bimbingan dari mentor berpengalaman.
+                        </span>
+                    </li>
+
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-3 h-3 rounded-full bg-[#648DDB]"></div>
+                        <span class="text-gray-700">
+                            Membangun portofolio profesional dan skill yang relevan industri.
+                        </span>
+                    </li>
                 </ul>
             </div>
+
         </div>
     </div>
 </section>

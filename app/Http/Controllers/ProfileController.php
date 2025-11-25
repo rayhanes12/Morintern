@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PesertaCalon;
 use App\Models\Spesialisasi;
+use App\Models\PenilaianMagang;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        $user = Auth::guard('peserta')->user();
+        $user = $this->getAuthenticatedUser();
 
         if (!$user) {
             return response()->json([
@@ -54,7 +55,9 @@ class ProfileController extends Controller
         }
 
     $validated = $request->validate([
-    'nama_lengkap' => 'required|string|max:100',
+    'name' => 'nullable|string|max:100',
+    'email' => 'nullable|email|max:255|unique:users,email,' . $user->id,
+    'nama_lengkap' => 'nullable|string|max:100',
     'no_telp' => 'nullable|string|max:20',
     'github' => 'nullable|string|max:255',
     'linkedin' => 'nullable|string|max:255',
@@ -67,9 +70,26 @@ class ProfileController extends Controller
     'surat' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
 ]);
 
-// tambahkan manual email dari user
-$validated['email'] = $user->email;
+// Map 'name' to 'nama_lengkap' for consistency
+if (isset($validated['name']) && !isset($validated['nama_lengkap'])) {
+    $validated['nama_lengkap'] = $validated['name'];
+    unset($validated['name']);
+}
 
+// Ensure nama_lengkap is set
+if (empty($validated['nama_lengkap'])) {
+    $validated['nama_lengkap'] = $user->nama_lengkap ?? $user->name ?? 'User';
+}
+
+// Ensure email is set (allow request email or use current)
+if (empty($validated['email'])) {
+    $validated['email'] = $user->email;
+}
+
+// If email changed and user is web user, reset email_verified_at
+if ($validated['email'] !== $user->email && !$user instanceof PesertaCalon) {
+    $validated['email_verified_at'] = null;
+}
 
         // Handle file uploads
         if ($request->hasFile('cv')) {
@@ -78,6 +98,12 @@ $validated['email'] = $user->email;
 
         if ($request->hasFile('surat')) {
             $validated['surat'] = $request->file('surat')->store('landing/profile', 'public');
+        }
+
+        // For web users (User model), map nama_lengkap to name
+        if (!$user instanceof PesertaCalon && isset($validated['nama_lengkap'])) {
+            $validated['name'] = $validated['nama_lengkap'];
+            unset($validated['nama_lengkap']);
         }
 
         // Update ketua data
@@ -314,6 +340,67 @@ $validated['email'] = $user->email;
         return response()->json([
             'success' => true,
             'anggota' => $anggota,
+        ]);
+    }
+
+    /**
+     * Get penilaian (evaluation) for the authenticated user.
+     * Returns JSON with masukan and file URL(s).
+     */
+    public function getPenilaian(Request $request): JsonResponse
+    {
+        $user = $this->getAuthenticatedUser();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User tidak terautentikasi.',
+            ], 401);
+        }
+
+        // Try to match by full name first, fallback to contains
+        $name = $user->nama_lengkap ?? $user->nama ?? null;
+
+        if (!$name) {
+            return response()->json([
+                'success' => true,
+                'data' => [],
+            ]);
+        }
+
+        $records = PenilaianMagang::where('nama', $name)->get();
+
+        if ($records->isEmpty()) {
+            $records = PenilaianMagang::where('nama', 'like', "%{$name}%")->get();
+        }
+
+        // Map records to include accessible file URL when present
+        $data = $records->map(function ($r) {
+            $fileUrl = null;
+            if ($r->file_penilaian) {
+                // Prefer public disk URL if exists
+                if (Storage::disk('public')->exists($r->file_penilaian)) {
+                    $fileUrl = Storage::disk('public')->url($r->file_penilaian);
+                } else {
+                    // fallback: try asset path
+                    $fileUrl = asset('storage/' . ltrim($r->file_penilaian, '/'));
+                }
+            }
+
+            return [
+                'id' => $r->id,
+                'nama' => $r->nama,
+                'nilai_rata_rata' => $r->nilai_rata_rata,
+                'masukan' => $r->masukan,
+                'file_penilaian' => $r->file_penilaian,
+                'file_url' => $fileUrl,
+                'created_at' => $r->created_at?->toDateTimeString(),
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
         ]);
     }
 

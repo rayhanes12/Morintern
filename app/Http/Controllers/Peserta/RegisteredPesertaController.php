@@ -46,7 +46,7 @@ class RegisteredPesertaController extends Controller
 
         Auth::guard('peserta')->login($peserta);
 
-        // Redirect to landing page after registration
-        return redirect()->route('landing');
+        // Redirect peserta to their profile page after registration
+        return redirect()->route('peserta.profil');
     }
 }

@@ -53,20 +53,23 @@ class ProfileController extends Controller
             ], 401);
         }
 
-        $validated = $request->validate([
-            'nama_lengkap' => 'required|string|max:100',
-            'no_telp' => 'nullable|string|max:20',
-            'email' => 'required|email|max:100',
-            'github' => 'nullable|string|max:255',
-            'linkedin' => 'nullable|string|max:255',
-            'spesialisasi_id' => 'nullable|exists:spesialisasi,id',
-            'universitas_id' => 'nullable|string|max:255',
-            'jurusan_id' => 'nullable|string|max:255',
-            'tanggal_mulai' => 'nullable|date',
-            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
-            'cv' => 'nullable|file|mimes:zip|max:10240',
-            'surat' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
-        ]);
+    $validated = $request->validate([
+    'nama_lengkap' => 'required|string|max:100',
+    'no_telp' => 'nullable|string|max:20',
+    'github' => 'nullable|string|max:255',
+    'linkedin' => 'nullable|string|max:255',
+    'spesialisasi_id' => 'nullable|exists:spesialisasi,id',
+    'universitas_id' => 'nullable|string|max:255',
+    'jurusan_id' => 'nullable|string|max:255',
+    'tanggal_mulai' => 'nullable|date',
+    'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
+    'cv' => 'nullable|file|mimes:zip|max:10240',
+    'surat' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+]);
+
+// tambahkan manual email dari user
+$validated['email'] = $user->email;
+
 
         // Handle file uploads
         if ($request->hasFile('cv')) {
@@ -110,10 +113,8 @@ class ProfileController extends Controller
             }
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Profil dan anggota berhasil disimpan.',
-        ]);
+    return redirect()->back()->with
+    ('success', 'Profil dan anggota berhasil disimpan.');
     }
 
     /**
@@ -158,10 +159,8 @@ class ProfileController extends Controller
 
         $user->update($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Profil berhasil diperbarui.',
-        ]);
+    return redirect()->back()->with
+    ('success', 'Profil dan anggota berhasil disimpan.');
     }
 
     /**

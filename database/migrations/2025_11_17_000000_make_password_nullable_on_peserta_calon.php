@@ -12,8 +12,15 @@ return new class extends Migration
             return;
         }
 
-        // Use raw statement to avoid requiring doctrine/dbal
-        DB::statement("ALTER TABLE `peserta_calon` MODIFY `password` VARCHAR(255) NULL;");
+        // SQLite doesn't support MODIFY, so use driver-specific syntax
+        $driver = DB::getDriverName();
+        
+        if ($driver === 'mysql') {
+            DB::statement("ALTER TABLE `peserta_calon` MODIFY `password` VARCHAR(255) NULL;");
+        } elseif ($driver === 'pgsql') {
+            DB::statement("ALTER TABLE peserta_calon ALTER COLUMN password DROP NOT NULL;");
+        }
+        // SQLite: no action needed, password is already nullable in create migration
     }
 
     public function down(): void
@@ -30,8 +37,5 @@ return new class extends Migration
             DB::statement("ALTER TABLE peserta_calon ALTER COLUMN password SET NOT NULL;");
         }
         // SQLite: no action needed
-
-        // Revert to NOT NULL with empty string default to avoid errors
-        DB::statement("ALTER TABLE `peserta_calon` MODIFY `password` VARCHAR(255) NOT NULL DEFAULT '';");
     }
 };

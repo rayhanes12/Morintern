@@ -26,15 +26,21 @@
 
             {{-- FORM PROFIL KETUA + ANGGOTA --}}
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 8505740faaf285846d2049422350b454e8e834f9
             @php
                 $isPeserta = Auth::guard('peserta')->check();
                 $formAction = $isPeserta ? route('peserta.profil.update') : route('profile.update');
                 $anggotaBase = $isPeserta ? url('/peserta/profil') : url('/profile');
             @endphp
             <form id="formProfilKetua" method="POST" action="{{ $formAction }}" enctype="multipart/form-data" 
+<<<<<<< HEAD
+=======
 =======
             <form id="formProfilKetua" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" 
 >>>>>>> main
+>>>>>>> 8505740faaf285846d2049422350b454e8e834f9
                 class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-200">
                 @csrf
 
@@ -242,6 +248,15 @@
                         class="w-full border border-blue-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200">
                 </div>
 
+<<<<<<< HEAD
+                <!-- No Telepon -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-1">No Telepon</label>
+                    <input type="text" name="anggota[__INDEX__][no_telp]"
+                        class="w-full border border-blue-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200">
+                </div>
+
+=======
                 <div id="anggotaContainer" class="space-y-4">
                     {{-- Daftar anggota dari backend --}}
                     @foreach ($anggota as $a)
@@ -487,6 +502,7 @@
                         class="w-full border border-blue-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200">
                 </div>
 
+>>>>>>> 8505740faaf285846d2049422350b454e8e834f9
                 <!-- Spesialisasi -->
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-1">Spesialisasi Magang</label>
@@ -524,8 +540,27 @@
     </div>
 </template>
 
+<<<<<<< HEAD
 
             </form>
+
+    <!-- Penilaian Modal -->
+    <div id="penilaianModal" class="hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="penilaianTitle">
+        <div class="absolute inset-0 bg-black/50" id="penilaianOverlay" aria-hidden="true"></div>
+        <div class="relative bg-white rounded-lg shadow-lg w-11/12 max-w-3xl p-6 z-10" tabindex="-1">
+            <div class="flex items-start justify-between mb-4">
+                <h3 id="penilaianTitle" class="text-lg font-semibold">Penilaian Magang</h3>
+                <button id="btnClosePenilaian" class="text-gray-500 hover:text-gray-800">Tutup</button>
+            </div>
+            <div id="penilaianContent" class="space-y-4 max-h-[60vh] overflow-auto">
+                <p class="text-sm text-gray-500">Memuat data penilaian...</p>
+            </div>
+        </div>
+    </div>
+=======
+
+            </form>
+>>>>>>> 8505740faaf285846d2049422350b454e8e834f9
 
             {{-- SECTION: Daftar Anggota --}}
             <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-200 mt-10">
@@ -668,7 +703,11 @@
                     const anggotaId = idInput.value;
                     if (!confirm('Hapus anggota ini?')) return;
 
+<<<<<<< HEAD
+                    fetch(`${anggotaBase}/anggota/${anggotaId}`, {
+=======
                     fetch(`/profile/anggota/${anggotaId}`, {
+>>>>>>> 8505740faaf285846d2049422350b454e8e834f9
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),

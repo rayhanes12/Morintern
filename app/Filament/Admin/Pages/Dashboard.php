@@ -2,22 +2,12 @@
 
 namespace App\Filament\Admin\Pages;
 
-use Filament\Pages\Dashboard as BaseDashboard;
-use App\Filament\Admin\Widgets\{
-    StatsOverview,
-    PendaftaranChart,
-    SpesialisasiChart
-};
+use Filament\Pages\Page;
 
-class Dashboard extends BaseDashboard
+class Dashboard extends Page
 {
-    public function getWidgets(): array
-
-    {
-        return [
-            StatsOverview::class,
-            PendaftaranChart::class,
-            SpesialisasiChart::class,
-        ];
-    }
+    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-home';
+    protected static ?string $navigationLabel = 'Dashboard';
+    protected static ?int $navigationSort = 1;
+    protected ?string $view = 'filament.admin.pages.dashboard';
 }

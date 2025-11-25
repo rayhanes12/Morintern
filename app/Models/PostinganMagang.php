@@ -14,5 +14,12 @@ class PostinganMagang extends Model
         'deskripsi',
         'durasi',
         'kuota',
+        'spesialisasi_id',
+        'ilustrasi',
     ];
+
+    public function spesialisasi()
+    {
+        return $this->belongsTo(Spesialisasi::class, 'spesialisasi_id');
+    }
 }

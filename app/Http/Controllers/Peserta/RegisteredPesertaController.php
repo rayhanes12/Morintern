@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Peserta;
 
+use Illuminate\Validation\Rules\Password;
 use App\Http\Controllers\Controller;
 use App\Models\PesertaCalon;
 use Illuminate\Auth\Events\Registered;
@@ -23,7 +24,7 @@ class RegisteredPesertaController extends Controller
             'nama_lengkap' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:peserta_calon'],
             'no_telp' => ['nullable', 'string', 'max:20'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         $peserta = PesertaCalon::create([

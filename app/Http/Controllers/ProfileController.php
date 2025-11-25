@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Throwable;
+use App\Models\Peserta;
 use App\Models\PesertaCalon;
 use App\Models\Spesialisasi;
 use Illuminate\Http\JsonResponse;
@@ -297,7 +299,7 @@ $validated['email'] = $user->email;
                 'success' => true,
                 'message' => 'Anggota berhasil dihapus.',
             ]);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
@@ -368,7 +370,7 @@ $validated['email'] = $user->email;
         return Auth::check() ? 'web' : (Auth::guard('peserta')->check() ? 'peserta' : null);
     }
 
-    public function downloadCv(Request $request, \App\Models\Peserta $peserta)
+    public function downloadCv(Request $request, Peserta $peserta)
     {
         $isOwner = Auth::guard('peserta')->check() && Auth::guard('peserta')->id() === $peserta->id;
         $isHrd = Auth::guard('web')->check();
@@ -385,7 +387,7 @@ $validated['email'] = $user->email;
         return response()->download(Storage::disk('local')->path($path));
     }
 
-    public function downloadSurat(Request $request, \App\Models\Peserta $peserta)
+    public function downloadSurat(Request $request, Peserta $peserta)
     {
         $isOwner = Auth::guard('peserta')->check() && Auth::guard('peserta')->id() === $peserta->id;
         $isHrd = Auth::guard('web')->check();
@@ -402,7 +404,7 @@ $validated['email'] = $user->email;
         return response()->download(Storage::disk('local')->path($path));
     }
 
-    public function downloadCvCalon(Request $request, \App\Models\PesertaCalon $calon)
+    public function downloadCvCalon(Request $request, PesertaCalon $calon)
     {
         $isOwner = Auth::guard('peserta')->check() && Auth::guard('peserta')->id() === $calon->id;
         $isHrd = Auth::guard('web')->check();
@@ -421,7 +423,7 @@ $validated['email'] = $user->email;
         return response()->json(['message' => 'File tidak ditemukan'], 404);
     }
 
-    public function downloadSuratCalon(Request $request, \App\Models\PesertaCalon $calon)
+    public function downloadSuratCalon(Request $request, PesertaCalon $calon)
     {
         $isOwner = Auth::guard('peserta')->check() && Auth::guard('peserta')->id() === $calon->id;
         $isHrd = Auth::guard('web')->check();

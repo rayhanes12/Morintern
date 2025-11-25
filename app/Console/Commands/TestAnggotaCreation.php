@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use App\Models\PesertaCalon;
 use Illuminate\Console\Command;
 
@@ -35,7 +36,7 @@ class TestAnggotaCreation extends Command
             $this->info("   Password is NULL: " . ($anggota->password === null ? 'YES ✓' : 'NO ✗'));
 
             return 0;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->error("❌ ERROR: " . $e->getMessage());
             return 1;
         }

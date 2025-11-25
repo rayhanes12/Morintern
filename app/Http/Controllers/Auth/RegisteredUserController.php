@@ -45,6 +45,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // Redirect admin/user registration to the profile page
+        return redirect()->route('profile.edit');
     }
 }

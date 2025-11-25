@@ -35,8 +35,8 @@
             {{-- Left: Illustration --}}
             <div class="flex justify-center">
                 <img src="{{ asset('assets/landing/ilustrasi-register.svg') }}" 
-                     alt="Register Illustration"
-                     class="max-w-[450px] h-auto">
+                    alt="Register Illustration"
+                    class="max-w-[450px] h-auto">
             </div>
 
             {{-- Right: Form Card --}}
@@ -59,14 +59,14 @@
                             Nama Lengkap
                         </label>
                         <input id="nama_lengkap" 
-                               type="text" 
-                               name="nama_lengkap" 
-                               value="{{ old('nama_lengkap') }}"
-                               required 
-                               autofocus 
-                               autocomplete="name"
-                               placeholder="Masukkan nama lengkap"
-                               class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
+                            type="text" 
+                            name="nama_lengkap" 
+                            value="{{ old('nama_lengkap') }}"
+                            required 
+                            autofocus 
+                            autocomplete="name"
+                            placeholder="Masukkan nama lengkap"
+                            class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
                         @error('nama_lengkap')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -78,13 +78,13 @@
                             Alamat Email
                         </label>
                         <input id="email" 
-                               type="email" 
-                               name="email" 
-                               value="{{ old('email') }}"
-                               required 
-                               autocomplete="username"
-                               placeholder="contoh@email.com"
-                               class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
+                            type="email" 
+                            name="email" 
+                            value="{{ old('email') }}"
+                            required 
+                            autocomplete="username"
+                            placeholder="contoh@email.com"
+                            class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
                         @error('email')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -96,12 +96,12 @@
                             Nomor Telepon
                         </label>
                         <input id="no_telp" 
-                               type="text" 
-                               name="no_telp" 
-                               value="{{ old('no_telp') }}"
-                               required
-                               placeholder="08xxxxxxxxxx"
-                               class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
+                            type="text" 
+                            name="no_telp" 
+                            value="{{ old('no_telp') }}"
+                            required
+                            placeholder="08xxxxxxxxxx"
+                            class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
                         @error('no_telp')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -113,12 +113,12 @@
                             Password
                         </label>
                         <input id="password" 
-                               type="password" 
-                               name="password" 
-                               required 
-                               autocomplete="new-password"
-                               placeholder="Masukkan password"
-                               class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
+                            type="password" 
+                            name="password" 
+                            required 
+                            autocomplete="new-password"
+                            placeholder="Masukkan password"
+                            class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
                         @error('password')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -130,12 +130,12 @@
                             Konfirmasi Password
                         </label>
                         <input id="password_confirmation" 
-                               type="password" 
-                               name="password_confirmation" 
-                               required 
-                               autocomplete="new-password"
-                               placeholder="Konfirmasi password"
-                               class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
+                            type="password" 
+                            name="password_confirmation" 
+                            required 
+                            autocomplete="new-password"
+                            placeholder="Konfirmasi password"
+                            class="w-full h-12 px-4 rounded-lg border border-[#D9D9D9] text-[#111827] placeholder-[#6B7280] focus:border-[#6F8FF9] focus:ring-2 focus:ring-[#6F8FF9] focus:ring-opacity-20 transition">
                         @error('password_confirmation')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -152,7 +152,7 @@
                     {{-- Login Link --}}
                     <div class="text-center pt-2">
                         <a href="{{ route('peserta.login') }}"
-                           class="text-sm text-gray-600 hover:text-[#6F8FF9] transition-colors">
+                        class="text-sm text-gray-600 hover:text-[#6F8FF9] transition-colors">
                             Sudah punya akun? <span class="font-semibold">Masuk</span>
                         </a>
                     </div>

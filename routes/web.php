@@ -43,6 +43,10 @@ Route::middleware(\App\Http\Middleware\AuthAny::class)->group(function () {
         Route::delete('/{id}', [ProfileController::class, 'destroyAnggota'])->name('destroy');
     });
 
+    // Penilaian endpoint for authenticated user (web or peserta)
+    Route::get('/profile/penilaian', [ProfileController::class, 'getPenilaian'])
+        ->name('profile.penilaian');
+
     // Password update
     Route::put('password', [\App\Http\Controllers\Auth\PasswordController::class, 'update'])
         ->name('password.update');
@@ -67,6 +71,19 @@ Route::prefix('peserta')->name('peserta.')->group(function () {
     Route::get('/auth/google', [PesertaSocialController::class, 'redirectToGoogle'])->name('google.login');
     Route::get('/auth/google/callback', [PesertaSocialController::class, 'handleGoogleCallback']);
 });
+
+// Landing pages
+// Route::get('/', function () {
+//     return view('landing.home'); // halaman Home
+// })->name('landing.home');
+
+// Route::get('/tentang', function () {
+//     return view('landing.tentang'); // halaman Tentang
+// })->name('landing.tentang');
+
+// Route::get('/kontak', function () {
+//     return view('landing.kontak'); // halaman Kontak
+// })->name('landing.kontak');
 
 //  ROUTE TAMBAHAN
 require __DIR__ . '/auth.php';

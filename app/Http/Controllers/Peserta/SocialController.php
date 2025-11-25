@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Auth\Peserta;
+namespace App\Http\Controllers\Peserta;
 
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\PesertaCalon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Filament\Pages\Page;
 
 class SocialController extends Controller
 {

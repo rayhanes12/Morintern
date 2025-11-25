@@ -13,7 +13,7 @@ class CalonPesertaResource extends Resource
 {
     protected static ?string $model = CalonPeserta::class;
 
-    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     protected static ?string $navigationLabel = 'Kelola Calon Peserta';
 

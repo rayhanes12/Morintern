@@ -13,7 +13,7 @@ class PostinganMagangResource extends Resource
 {
     protected static ?string $model = PostinganMagang::class;
 
-    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?string $navigationLabel = 'Postingan Magang';
 
     // Page-centric: pages implement form/table schemas

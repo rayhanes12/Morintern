@@ -11,7 +11,7 @@ class RoleKonfirmasiResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-user-check';
+    protected static ?string $navigationIcon = 'heroicon-o-user-check';
     protected static ?string $navigationLabel = 'Konfirmasi Role';
 
     // Table schema moved to

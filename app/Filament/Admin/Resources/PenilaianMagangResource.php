@@ -13,7 +13,7 @@ class PenilaianMagangResource extends Resource
 {
     protected static ?string $model = PenilaianMagang::class;
 
-    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-clipboard-check';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-check';
     protected static ?string $navigationLabel = 'Penilaian Magang';
 
     // Page-centric: Form and table schema moved to

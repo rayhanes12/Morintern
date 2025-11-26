@@ -7,11 +7,14 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/css/filament-custom.css',
                 'resources/js/app.js'
             ],
             refresh: true,
         }),
         tailwindcss(),
     ],
+    vitePlugins: [
+        require('@tailwindcss/forms'),
+        filamentVitePlugin({ theme: 'resources/css/filament/admin/theme.css' }),
+    ]
 });

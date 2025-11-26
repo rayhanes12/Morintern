@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     /**
      * ============================
-     *   ROLE PERMISSION (Filament)
+     *   ROLE PERMISSION (Admin)
      * ============================
      */
 

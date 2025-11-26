@@ -2,21 +2,20 @@
 
 namespace App\Providers\Filament;
 
-use App\Models\User;
-use Filament\Panel;
-use Filament\Pages;
-use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Cookie\Middleware\EncryptCookies;
+use Filament\Pages\Dashboard as CustomDashboard; // Ganti jika custom
+use Filament\Panel;
+use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -27,22 +26,17 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('MorIntern')
             ->colors([
-                'primary' => '#6F8FF9',
+                'primary' => Color::rgb('29, 78, 216'), // Biru seperti screenshot (override Amber)
             ])
-            ->font('Plus Jakarta Sans')
-            ->viteTheme('resources/css/filament-custom.css')
-
-            // Izinkan hanya role 1 & 2
-            // ->authUsing(function (User $user) {
-            //     return $user->isAdminPanelAllowed();
-            // })
-
-            ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
-            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
-            ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
-
+            ->font('Plus Jakarta Sans') // Langsung apply font global
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->pages([
+                CustomDashboard::class,
+            ])
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->widgets([]) // Kosongkan dulu, tambah custom stats nanti
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -54,9 +48,11 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->viteTheme('resources/css/filament/admin/theme.css') // Sudah match biru gradient
+            ->brandName('Morintern') // Branding seperti screenshot
+            ->brandLogo(asset('images/logo-morintern.png')); // Tambah logo jika ada
     }
 }

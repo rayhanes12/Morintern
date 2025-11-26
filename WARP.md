@@ -4,7 +4,7 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## Project Overview
 
-**MorIntern** is a Laravel 12 internship management system built with Filament 4.0 for the admin panel. The application manages two distinct user types: HRD (HR Department staff) and Peserta (intern participants), each with separate authentication systems.
+**MorIntern** is a Laravel 12 internship management system with a custom admin panel. The application manages two distinct user types: HRD (HR Department staff) and Peserta (intern participants), each with separate authentication systems.
 
 ## Development Commands
 
@@ -73,17 +73,11 @@ npm run dev    # Development with hot reload
 npm run build  # Production build
 ```
 
-### Filament Admin Panel
-```powershell
-# Create new Filament resource
-php artisan make:filament-resource ModelName
+### Admin Panel
+This project includes an admin panel (mounted at `/admin`) used by HRD users. Use the project's artisan generators or custom scaffolding to manage admin resources and pages.
+### Admin Panel
 
-# Create Filament page
-php artisan make:filament-page PageName
-
-# Create Filament widget
-php artisan make:filament-widget WidgetName
-```
+This project includes an admin panel (mounted at `/admin`) used by HRD users. Use the project's artisan generators or custom scaffolding to manage admin resources and pages.
 
 ## Architecture
 
@@ -102,13 +96,13 @@ Both guards support:
 
 ### Directory Structure
 
-**Filament Resources Organization:**
-- Resources are organized into subdirectories (e.g., `app/Filament/Resources/CalonPesertas/`)
-- Each resource contains:
-  - `CalonPesertaResource.php` - Main resource class
-  - `Pages/` - CRUD pages (List, Create, Edit)
-  - `Schemas/` - Form schemas (reusable form definitions)
-  - `Tables/` - Table configurations
+**Admin Resources Organization:**
+- Resources are organized into subdirectories under `app/Resources/` or similar (e.g., `app/Resources/CalonPesertas/`)
+- Each resource typically contains:
+  - `CalonPesertaResource.php` - Main resource class or controller
+  - `Pages/` or `Controllers/` - CRUD pages (List, Create, Edit)
+  - `Schemas/` or `Requests/` - Form schemas or request validation
+  - `Tables/` or `Views/` - Table configurations or Blade views
 
 This structure separates concerns and keeps form/table definitions modular and reusable.
 
@@ -128,19 +122,19 @@ Routes are split across multiple files:
 - `routes/peserta.php` - Peserta authentication routes (login, register, password reset, Google OAuth)
 
 **Key route patterns:**
-- `/admin/*` - Filament admin panel (HRD only, via `auth:web`)
+-- `/admin/*` - Admin panel routes (HRD only, via `auth:web`)
 - `/hrd/*` - HRD-specific routes (approval/rejection of interns)
 - `/peserta/*` - Peserta authentication routes
 - `/dashboard` - Shared dashboard (both guards)
 - `/profile` - Shared profile management (uses `AuthAny` middleware)
 
-### Admin Panel (Filament)
+### Admin Panel
 
 Admin panel is accessed at `/admin` and uses:
-- Filament Shield plugin for role-based permissions
+- Role-based permissions for access control
 - Custom branding ("MorIntern") and colors (primary: `#6F8FF9`)
 - Custom font: Plus Jakarta Sans
-- Custom CSS via `resources/css/filament-custom.css`
+- Custom CSS (if present) in `resources/css/` (e.g., `resources/css/admin-custom.css`)
 
 **Note:** Admin panel only authenticates via the `web` guard (HRD users).
 
@@ -155,8 +149,8 @@ Available seeders:
 ## Key Dependencies
 
 - **Laravel 12** - Application framework (requires PHP 8.2+)
-- **Filament 4.0** - Admin panel builder
-- **Filament Shield** - Role & permission management
+ - Admin panel builder (project-specific)
+ - Role & permission management (plugin or custom implementation)
 - **Laravel Socialite** - Google OAuth integration
 - **Laravel Breeze** - Authentication scaffolding (dev)
 - **Laravel Pint** - Code style fixer

@@ -1,0 +1,29 @@
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import forms from '@tailwindcss/forms'; // Statis import, fix dynamic require
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: [
+                'resources/css/app.css', // CSS utama app
+                'resources/js/app.js', // JS utama
+                'resources/css/filament/admin/theme.css' // Custom theme Filament-mu, aman integrated
+            ],
+            refresh: true, // Hot reload untuk dev cepat, maintain UX bagus
+        }),
+        forms, // Plugin forms statis, no require
+    ],
+    resolve: {
+        alias: {
+            '@': '/resources/js', // Optional: Alias untuk import JS mudah, maintainability tinggi
+        },
+    },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: undefined, // Optimasi bundle, hindari chunk besar yang lambat load
+            },
+        },
+    },
+});

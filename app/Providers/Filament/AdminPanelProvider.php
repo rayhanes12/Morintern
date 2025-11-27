@@ -6,7 +6,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages\Dashboard as CustomDashboard; // Ganti jika custom
+use Filament\Pages\Dashboard as CustomDashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -27,16 +27,18 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::rgb('29, 78, 216'), // Biru seperti screenshot (override Amber)
+                'primary' => Color::rgb('29, 78, 216'), // Biru profesional match screenshot
             ])
-            ->font('Plus Jakarta Sans') // Langsung apply font global
+            ->font('Plus Jakarta Sans') // Apply font global untuk konsistensi
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 CustomDashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([]) // Kosongkan dulu, tambah custom stats nanti
+            ->widgets([
+                \App\Filament\Widgets\StatsOverview::class, // Tambah ini setelah buat widget
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -51,8 +53,8 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->viteTheme('resources/css/filament/admin/theme.css') // Sudah match biru gradient
-            ->brandName('Morintern') // Branding seperti screenshot
-            ->brandLogo(asset('images/logo-morintern.png')); // Tambah logo jika ada
+            ->viteTheme('resources/css/filament/admin/theme.css') // Custom theme biru
+            ->brandName('Morintern') // Branding match screenshot
+            ->brandLogo(asset('images/logo-morintern.png')); // Ganti path logo jika ada
     }
 }

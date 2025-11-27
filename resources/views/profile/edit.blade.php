@@ -25,22 +25,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             {{-- FORM PROFIL KETUA + ANGGOTA --}}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 8505740faaf285846d2049422350b454e8e834f9
             @php
                 $isPeserta = Auth::guard('peserta')->check();
                 $formAction = $isPeserta ? route('peserta.profil.update') : route('profile.update');
                 $anggotaBase = $isPeserta ? url('/peserta/profil') : url('/profile');
             @endphp
             <form id="formProfilKetua" method="POST" action="{{ $formAction }}" enctype="multipart/form-data" 
-<<<<<<< HEAD
-=======
-=======
-            <form id="formProfilKetua" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" 
->>>>>>> main
->>>>>>> 8505740faaf285846d2049422350b454e8e834f9
                 class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-200">
                 @csrf
 
@@ -248,7 +238,6 @@
                         class="w-full border border-blue-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200">
                 </div>
 
-<<<<<<< HEAD
                 <!-- No Telepon -->
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-1">No Telepon</label>
@@ -256,253 +245,6 @@
                         class="w-full border border-blue-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200">
                 </div>
 
-=======
-                <div id="anggotaContainer" class="space-y-4">
-                    {{-- Daftar anggota dari backend --}}
-                    @foreach ($anggota as $a)
-                        <div class="bg-white border border-[#6F8FF9]/40 shadow-sm rounded-xl p-5 relative">
-                            <p class="font-semibold dark:text-gray-100">{{ $a->nama_lengkap }}</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">{{ $a->email }}</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Spesialisasi: {{ $spesialisasiOptions[$a->spesialisasi_id] ?? '-' }}</p>
-                            <button type="button" data-id="{{ $a->id }}"
-                                class="btnHapusAnggota absolute top-2 right-2 text-red-600 hover:text-red-800 text-sm">
-                                Hapus
-                            </button>
-                        </div>
-                    @endforeach
-                </div>
-
-                {{-- Template anggota dinamis --}}
-                <template id="anggotaTemplate">
-                    <div class="bg-white border border-[#6F8FF9]/50 rounded-xl p-5 shadow-sm relative anggotaItem">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <input type="text" name="anggota[__INDEX__][nama_lengkap]" placeholder="Nama Lengkap" required
-                                class="border rounded p-2 w-full dark:bg-gray-700 dark:text-gray-100">
-                            <input type="text" name="anggota[__INDEX__][no_telp]" placeholder="No. Telepon" required
-                                class="border rounded p-2 w-full dark:bg-gray-700 dark:text-gray-100">
-                            <input type="email" name="anggota[__INDEX__][email]" placeholder="Email" required
-                                class="border rounded p-2 w-full dark:bg-gray-700 dark:text-gray-100">
-                            <input type="text" name="anggota[__INDEX__][github]" placeholder="Link Github"
-                                class="border rounded p-2 w-full dark:bg-gray-700 dark:text-gray-100">
-                            <input type="text" name="anggota[__INDEX__][linkedin]" placeholder="Link LinkedIn"
-                                class="border rounded p-2 w-full dark:bg-gray-700 dark:text-gray-100">
-                            <select name="anggota[__INDEX__][spesialisasi_id]" required
-                                class="border rounded p-2 w-full dark:bg-gray-700 dark:text-gray-100">
-                                <option value="">Pilih Spesialisasi</option>
-                                @foreach ($spesialisasiOptions as $id => $label)
-                                    <option value="{{ $id }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <button type="button" class="hapusBaru absolute top-2 right-2 text-red-600 hover:text-red-800 text-sm">
-                            Hapus
-                        </button>
-                </div>
-
-                {{-- Nama Lengkap --}}
-                <div class="mb-4 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">Nama Lengkap</label>
-                    <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap', $user->nama_lengkap ?? '') }}"
-                        class="col-span-2 border border-blue-300 rounded-md focus:ring focus:ring-blue-200 px-3 py-2">
-                </div>
-
-                {{-- Asal Univ --}}
-                <div class="mb-4 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">Asal Univ</label>
-                    <input type="text" name="universitas_id" value="{{ old('universitas_id', $user->universitas_id ?? '') }}"
-                        class="col-span-2 border border-blue-300 rounded-md focus:ring focus:ring-blue-200 px-3 py-2">
-                </div>
-
-                {{-- Jurusan --}}
-                <div class="mb-4 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">Jurusan</label>
-                    <input type="text" name="jurusan_id" value="{{ old('jurusan_id', $user->jurusan_id ?? '') }}"
-                        class="col-span-2 border border-blue-300 rounded-md focus:ring focus:ring-blue-200 px-3 py-2">
-                </div>
-
-                {{-- No Telepon --}}
-                <div class="mb-4 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">No Telepon</label>
-                    <input type="text" name="no_telp" value="{{ old('no_telp', $user->no_telp ?? '') }}"
-                        class="col-span-2 border border-blue-300 rounded-md focus:ring focus:ring-blue-200 px-3 py-2">
-                </div>
-
-                {{-- Email --}}
-                <div class="mb-4 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">Email</label>
-                    <input type="email" disabled value="{{ $user->email ?? '' }}"
-                        class="col-span-2 bg-gray-100 border border-gray-300 rounded-md px-3 py-2 cursor-not-allowed">
-                </div>
-
-                {{-- Link Github --}}
-                <div class="mb-4 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">Link Github</label>
-                    <input type="text" name="github" value="{{ old('github', $user->github ?? '') }}"
-                        class="col-span-2 border border-blue-300 rounded-md focus:ring focus:ring-blue-200 px-3 py-2">
-                </div>
-
-                {{-- LinkedIn --}}
-                <div class="mb-4 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">LinkedIn</label>
-                    <input type="text" name="linkedin" value="{{ old('linkedin', $user->linkedin ?? '') }}"
-                        class="col-span-2 border border-blue-300 rounded-md focus:ring focus:ring-blue-200 px-3 py-2">
-                </div>
-
-                {{-- Tanggal Mulai & Selesai --}}
-                <div class="mb-4 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">Tanggal Mulai &<br>Tanggal Selesai</label>
-                    <div class="col-span-2 flex items-center gap-2">
-                        <input type="date" name="tanggal_mulai" class="border border-blue-300 rounded-md px-3 py-2 flex-1"
-                            value="{{ old('tanggal_mulai', $user->tanggal_mulai?->format('Y-m-d')) }}">
-                        <span class="text-gray-600">s/d</span>
-                        <input type="date" name="tanggal_selesai" class="border border-blue-300 rounded-md px-3 py-2 flex-1"
-                            value="{{ old('tanggal_selesai', $user->tanggal_selesai?->format('Y-m-d')) }}">
-                    </div>
-                </div>
-
-                {{-- CV --}}
-                <div class="mb-4 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">CV</label>
-                    <div class="col-span-2">
-                        <input type="file" name="cv" accept=".zip"
-                            class="w-full text-sm border border-blue-300 rounded-md px-3 py-2">
-                        @if($user->cv ?? false)
-                            <p class="text-sm text-gray-500 mt-1">File saat ini: {{ basename($user->cv) }}</p>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- Surat Lamaran --}}
-                <div class="mb-4 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">Surat Lamaran</label>
-                    <div class="col-span-2">
-                        <input type="file" name="surat" accept=".jpg,.jpeg,.png"
-                            class="w-full text-sm border border-blue-300 rounded-md px-3 py-2">
-                        @if($user->surat ?? false)
-                            <p class="text-sm text-gray-500 mt-1">File saat ini: {{ basename($user->surat) }}</p>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- Spesialisasi --}}
-                <div class="mb-6 grid grid-cols-3 gap-4 items-center">
-                    <label class="text-gray-700 text-right">Spesialisasi Magang</label>
-                    <select name="spesialisasi_id" class="col-span-2 border border-blue-300 rounded-md px-3 py-2">
-                        <option value="">-Silahkan Pilih-</option>
-                        @foreach($spesialisasiOptions as $id => $nama)
-                            <option value="{{ $id }}" {{ ($user->spesialisasi_id ?? '') == $id ? 'selected' : '' }}>
-                                {{ $nama }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                {{-- Tombol Simpan --}}
-                <div class="flex justify-end pt-4 border-t mt-8">
-                    <button type="submit"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                        Simpan 
-                    </button>
-                </div>
-
-
-                    <div id="anggotaContainer" class="space-y-4">
-                        @foreach ($anggota as $i => $a)
-                            <div class="border border-blue-300/50 rounded-lg p-6 anggota-item bg-white shadow-sm relative">
-
-                                <!-- Nama Lengkap -->
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 mb-1">Nama Lengkap</label>
-                                    <input type="text" name="anggota[{{ $i }}][nama_lengkap]" 
-                                        value="{{ $a->nama_lengkap }}"
-                                        class="w-full border border-blue-300 rounded-md px-3 py-2">
-                                </div>
-
-                                <!-- Email -->
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 mb-1">Email</label>
-                                    <input type="email" name="anggota[{{ $i }}][email]" 
-                                        value="{{ $a->email }}"
-                                        class="w-full border border-blue-300 rounded-md px-3 py-2">
-                                </div>
-
-                                <!-- No Telepon -->
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 mb-1">No Telepon</label>
-                                    <input type="text" name="anggota[{{ $i }}][no_telp }}"
-                                        value="{{ $a->no_telp }}"
-                                        class="w-full border border-blue-300 rounded-md px-3 py-2">
-                                </div>
-
-                                <!-- Spesialisasi -->
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 mb-1">Spesialisasi Magang</label>
-                                    <select name="anggota[{{ $i }}][spesialisasi_id]"
-                                        class="w-full border border-blue-300 rounded-md px-3 py-2">
-                                        <option value="">Pilih Spesialisasi</option>
-                                        @foreach ($spesialisasiOptions as $id => $nama)
-                                            <option value="{{ $id }}" {{ $a->spesialisasi_id == $id ? 'selected' : '' }}>
-                                                {{ $nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <!-- GitHub -->
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 mb-1">GitHub</label>
-                                    <input type="text" name="anggota[{{ $i }}][github]" 
-                                        value="{{ $a->github }}"
-                                        class="w-full border border-blue-300 rounded-md px-3 py-2">
-                                </div>
-
-                                <!-- LinkedIn -->
-                                <div class="mb-6">
-                                    <label class="block text-gray-700 mb-1">LinkedIn</label>
-                                    <input type="text" name="anggota[{{ $i }}][linkedin }}" 
-                                        value="{{ $a->linkedin }}"
-                                        class="w-full border border-blue-300 rounded-md px-3 py-2">
-                                </div>
-
-                                <!-- Hidden ID -->
-                                <input type="hidden" name="anggota[{{ $i }}][id]" value="{{ $a->id }}">
-
-                                <!-- Tombol Hapus -->
-                                <button type="button"
-                                    class="btnHapusAnggota absolute top-3 right-3 text-red-600 hover:text-red-800 text-sm">
-                                    Hapus
-                                </button>
-
-                            </div>
-                        @endforeach
-                    </div>
-
-
-        <template id="anggotaTemplate">
-            <div class="border border-blue-300/50 rounded-lg p-6 anggota-item bg-white shadow-sm relative">
-
-                <!-- Nama Lengkap -->
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-1">Nama Lengkap</label>
-                    <input type="text" name="anggota[__INDEX__][nama_lengkap]"
-                        class="w-full border border-blue-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200">
-                </div>
-
-                <!-- Email -->
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-1">Email</label>
-                    <input type="email" name="anggota[__INDEX__][email]"
-                        class="w-full border border-blue-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200">
-                </div>
-
-                <!-- No Telepon -->
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-1">No Telepon</label>
-                    <input type="text" name="anggota[__INDEX__][no_telp]"
-                        class="w-full border border-blue-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200">
-                </div>
-
->>>>>>> 8505740faaf285846d2049422350b454e8e834f9
                 <!-- Spesialisasi -->
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-1">Spesialisasi Magang</label>
@@ -540,7 +282,6 @@
     </div>
 </template>
 
-<<<<<<< HEAD
 
             </form>
 
@@ -557,10 +298,6 @@
             </div>
         </div>
     </div>
-=======
-
-            </form>
->>>>>>> 8505740faaf285846d2049422350b454e8e834f9
 
             {{-- SECTION: Daftar Anggota --}}
             <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-200 mt-10">
@@ -703,11 +440,7 @@
                     const anggotaId = idInput.value;
                     if (!confirm('Hapus anggota ini?')) return;
 
-<<<<<<< HEAD
                     fetch(`${anggotaBase}/anggota/${anggotaId}`, {
-=======
-                    fetch(`/profile/anggota/${anggotaId}`, {
->>>>>>> 8505740faaf285846d2049422350b454e8e834f9
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),

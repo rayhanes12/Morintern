@@ -8,15 +8,9 @@ use App\Models\PenilaianMagang;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Http\Requests\ProfileUpdateRequest;
-use App\Http\Requests\ProfileDataUpdateRequest;
-use App\Http\Requests\AnggotaStoreRequest;
-use App\Http\Requests\AnggotaUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -49,7 +43,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request)
+    public function update(Request $request)
     {
         $user = $this->getAuthenticatedUser();
 
@@ -61,7 +55,9 @@ class ProfileController extends Controller
         }
 
     $validated = $request->validate([
-    'nama_lengkap' => 'required|string|max:100',
+    'name' => 'nullable|string|max:100',
+    'email' => 'nullable|email|max:255|unique:users,email,' . $user->id,
+    'nama_lengkap' => 'nullable|string|max:100',
     'no_telp' => 'nullable|string|max:20',
     'github' => 'nullable|string|max:255',
     'linkedin' => 'nullable|string|max:255',
@@ -74,7 +70,6 @@ class ProfileController extends Controller
     'surat' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
 ]);
 
-<<<<<<< HEAD
 // Map 'name' to 'nama_lengkap' for consistency
 if (isset($validated['name']) && !isset($validated['nama_lengkap'])) {
     $validated['nama_lengkap'] = $validated['name'];
@@ -95,52 +90,16 @@ if (empty($validated['email'])) {
 if ($validated['email'] !== $user->email && !$user instanceof PesertaCalon) {
     $validated['email_verified_at'] = null;
 }
-=======
-// tambahkan manual email dari user
-$validated['email'] = $user->email;
 
->>>>>>> 8505740faaf285846d2049422350b454e8e834f9
-
+        // Handle file uploads
         if ($request->hasFile('cv')) {
-            $file = $request->file('cv');
-            $oldPath = $user->cv;
-            $base = $oldPath ? pathinfo($oldPath, PATHINFO_FILENAME) : pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $ext = strtolower($file->getClientOriginalExtension());
-            $filename = Str::slug($base) . '.' . $ext;
-            if ($oldPath) {
-                if (Storage::disk('local')->exists($oldPath)) {
-                    Storage::disk('local')->delete($oldPath);
-                }
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
-            }
-
-            Storage::disk('local')->putFileAs('cv', $file, $filename);
-            $validated['cv'] = 'cv/' . $filename;
+            $validated['cv'] = $request->file('cv')->store('landing/profile', 'public');
         }
 
         if ($request->hasFile('surat')) {
-            $file = $request->file('surat');
-            $oldPath = $user->surat;
-            $base = $oldPath ? pathinfo($oldPath, PATHINFO_FILENAME) : pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $ext = strtolower($file->getClientOriginalExtension());
-            $filename = Str::slug($base) . '.' . $ext;
-
-            if ($oldPath) {
-                if (Storage::disk('local')->exists($oldPath)) {
-                    Storage::disk('local')->delete($oldPath);
-                }
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
-            }
-
-            Storage::disk('local')->putFileAs('surat', $file, $filename);
-            $validated['surat'] = 'surat/' . $filename;
+            $validated['surat'] = $request->file('surat')->store('landing/profile', 'public');
         }
 
-<<<<<<< HEAD
         // For web users (User model), map nama_lengkap to name
         if (!$user instanceof PesertaCalon && isset($validated['nama_lengkap'])) {
             $validated['name'] = $validated['nama_lengkap'];
@@ -148,8 +107,6 @@ $validated['email'] = $user->email;
         }
 
         // Update ketua data
-=======
->>>>>>> 8505740faaf285846d2049422350b454e8e834f9
         $user->update($validated);
 
         // Handle anggota data
@@ -183,7 +140,8 @@ $validated['email'] = $user->email;
                 ];
 
                 if (!empty($anggotaItem['id'])) {
-                    $existingAnggota = PesertaCalon::where('ketua_id', $user->id)->find($anggotaItem['id']);
+                    $existingAnggota = PesertaCalon::where('ketua_id', $user->id)
+                        ->find($anggotaItem['id']);
                     if ($existingAnggota) {
                         // Merge validated fields but force linked fields to ketua values
                         $existingAnggota->update(array_merge($anggotaValidated, $linked));
@@ -234,10 +192,20 @@ $validated['email'] = $user->email;
     /**
      * Update profile data for peserta via AJAX.
      */
-    public function updateProfileData(ProfileDataUpdateRequest $request): JsonResponse
+    public function updateProfileData(Request $request): JsonResponse
     {
         $user = Auth::guard('peserta')->user();
-        $validated = $request->validated();
+
+        $validated = $request->validate([
+            'nama_lengkap' => 'required|string|max:100',
+            'no_telp' => 'required|string|max:20',
+            'email' => 'required|email|max:100',
+            'github' => 'nullable|string|max:255',
+            'linkedin' => 'nullable|string|max:255',
+            'spesialisasi_id' => 'nullable|exists:spesialisasi,id',
+            'tanggal_mulai' => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
+        ]);
 
         $user->update($validated);
 
@@ -248,7 +216,7 @@ $validated['email'] = $user->email;
     /**
      * Store a new anggota via AJAX.
      */
-    public function storeAnggota(AnggotaStoreRequest $request): JsonResponse
+    public function storeAnggota(Request $request): JsonResponse
     {
         $ketua = Auth::guard('peserta')->user();
 
@@ -337,17 +305,6 @@ $validated['email'] = $user->email;
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
             ], 500);
         }
-    }
-
-    public function updateAnggota(AnggotaUpdateRequest $request, int $id): JsonResponse
-    {
-        $ketua = Auth::guard('peserta')->user() ?? Auth::user();
-        $anggota = PesertaCalon::where('ketua_id', $ketua->id)->findOrFail($id);
-        $anggota->update($request->validated());
-        return response()->json([
-            'success' => true,
-            'message' => 'Anggota berhasil diperbarui.',
-        ]);
     }
 
     /**
@@ -461,78 +418,6 @@ $validated['email'] = $user->email;
     private function getActiveGuard(): ?string
     {
         return Auth::check() ? 'web' : (Auth::guard('peserta')->check() ? 'peserta' : null);
-    }
-
-    public function downloadCv(Request $request, \App\Models\Peserta $peserta)
-    {
-        $isOwner = Auth::guard('peserta')->check() && Auth::guard('peserta')->id() === $peserta->id;
-        $isHrd = Auth::guard('web')->check();
-
-        if (! $isOwner && ! $isHrd) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $path = $peserta->cv;
-        if (! $path || ! Storage::disk('local')->exists($path)) {
-            return response()->json(['message' => 'File tidak ditemukan'], 404);
-        }
-
-        return response()->download(Storage::disk('local')->path($path));
-    }
-
-    public function downloadSurat(Request $request, \App\Models\Peserta $peserta)
-    {
-        $isOwner = Auth::guard('peserta')->check() && Auth::guard('peserta')->id() === $peserta->id;
-        $isHrd = Auth::guard('web')->check();
-
-        if (! $isOwner && ! $isHrd) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $path = $peserta->surat;
-        if (! $path || ! Storage::disk('local')->exists($path)) {
-            return response()->json(['message' => 'File tidak ditemukan'], 404);
-        }
-
-        return response()->download(Storage::disk('local')->path($path));
-    }
-
-    public function downloadCvCalon(Request $request, \App\Models\PesertaCalon $calon)
-    {
-        $isOwner = Auth::guard('peserta')->check() && Auth::guard('peserta')->id() === $calon->id;
-        $isHrd = Auth::guard('web')->check();
-
-        if (! $isOwner && ! $isHrd) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $path = $calon->cv;
-        if ($path && Storage::disk('local')->exists($path)) {
-            return response()->download(Storage::disk('local')->path($path));
-        }
-        if ($path && Storage::disk('public')->exists($path)) {
-            return response()->download(Storage::disk('public')->path($path));
-        }
-        return response()->json(['message' => 'File tidak ditemukan'], 404);
-    }
-
-    public function downloadSuratCalon(Request $request, \App\Models\PesertaCalon $calon)
-    {
-        $isOwner = Auth::guard('peserta')->check() && Auth::guard('peserta')->id() === $calon->id;
-        $isHrd = Auth::guard('web')->check();
-
-        if (! $isOwner && ! $isHrd) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $path = $calon->surat;
-        if ($path && Storage::disk('local')->exists($path)) {
-            return response()->download(Storage::disk('local')->path($path));
-        }
-        if ($path && Storage::disk('public')->exists($path)) {
-            return response()->download(Storage::disk('public')->path($path));
-        }
-        return response()->json(['message' => 'File tidak ditemukan'], 404);
     }
 
 }

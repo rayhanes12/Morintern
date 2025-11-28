@@ -1,6 +1,17 @@
-<!-- Features (Program) Section - Modern Professional -->
-<section class="bg-white py-20">
-    <div class="max-w-[1440px] mx-auto px-8 lg:px-12">
+<section class="bg-white pt-0 pb-20">
+    
+    <!-- Blue Top Bar -->
+    <div class="w-screen h-16 bg-[#6D8ED0] relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"></div>
+
+
+        <!-- Title Center -->
+        <h2 class="text-center text-3xl lg:text-4xl font-bold text-[#3B82F6] mb-12 leading-snug">
+            Program MorIntern dirancang untuk memberikan <br>
+            <span class="bg-gradient-to-r from-[#3B82F6] to-[#3B82F6] text-transparent bg-clip-text">
+                pengalaman kerja nyata
+            </span>
+            di dunia industri.
+        </h2>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
@@ -33,15 +44,7 @@
 
             <!-- Right Text Content -->
             <div>
-                <h2 class="text-3xl lg:text-4xl font-bold text-[#1F2937] leading-tight">
-                    Program MorIntern dirancang untuk memberikan 
-                    <span class="bg-gradient-to-r from-[#648DDB] to-[#3B82F6] text-transparent bg-clip-text">
-                        pengalaman kerja nyata
-                    </span>
-                    di dunia industri.
-                </h2>
-
-                <p class="mt-6 text-gray-600 max-w-lg leading-relaxed">
+                <p class="text-gray-600 max-w-lg leading-relaxed">
                     Selama masa magang, peserta akan mendapatkan kombinasi pengalaman praktis
                     dan bimbingan yang meningkatkan kesiapan karier.
                 </p>

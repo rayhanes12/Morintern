@@ -14,11 +14,7 @@
     </div>
 
     {{-- Header --}}
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profil Peserta Magang') }}
-        </h2>
-    </x-slot>
+  
 
     {{-- Konten --}}
     <div class="py-12 relative z-10">

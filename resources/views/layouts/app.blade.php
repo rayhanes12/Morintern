@@ -1,61 +1,67 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-        
-        <!-- Profile Page Styles -->
-        <style>
-            * {
-                font-family: 'Plus Jakarta Sans', sans-serif;
-            }
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-            label {
-                font-weight: 600;
-                color: #1A1A1A;
-            }
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-            input, select {
-                border: 1.5px solid #6F8FF9 !important;
-                border-radius: 8px !important;
-                padding: 10px 14px !important;
-            }
+    <!-- Profile Page Styles -->
+    <style>
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
 
-            button {
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-            }
-        </style>
-    </head>
-    <body class="font-sans antialiased">
-    <div class="min-h-screen flex flex-col items-center justify-center bg-transparent relative">
-            @include('layouts.navigation')
+        label {
+            font-weight: 600;
+            color: #1A1A1A;
+        }
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+        input,
+        select {
+            border: 1.5px solid #6F8FF9 !important;
+            border-radius: 8px !important;
+            padding: 10px 14px !important;
+        }
 
-            <!-- Page Content -->
-            <main class="w-full flex flex-col items-center justify-center">
-                {{ $slot }}
-            </main>
-        </div>
-        
-        @stack('scripts')
-    </body>
+        button {
+            font-weight: 600 !important;
+            border-radius: 8px !important;
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased">
+    <div class="min-h-screen flex flex-col bg-transparent relative">
+
+        {{-- Ganti navigation Jetstream dengan header landing --}}
+        @include('landing.components.header')
+
+        <!-- Page Heading -->
+        @isset($header)
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endisset
+
+        <!-- Page Content -->
+        <main class="w-full">
+            {{ $slot }}
+        </main>
+    </div>
+
+    @stack('scripts')
+</body>
+
 </html>

@@ -10,7 +10,7 @@ class Spesialisasi extends Model
 {
     use HasFactory;
 
-    // ✅ Pastikan Laravel tidak mengubah menjadi 'spesialisasis'
+    // Pastikan Laravel tidak mengubah menjadi 'spesialisasis'
     protected $table = 'spesialisasi';
 
     protected $fillable = [
@@ -21,7 +21,7 @@ class Spesialisasi extends Model
     // ✅ Relasi ke tabel calon_pesertas
     public function calonPesertas(): HasMany
     {
-        return $this->hasMany(CalonPeserta::class, 'spesialisasi_id');
+        return $this->hasMany(PesertaCalon::class, 'spesialisasi_id');
     }
 
     public function pesertas(): HasMany
